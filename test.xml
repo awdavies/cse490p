@@ -21,9 +21,11 @@
 			<joint type="slide" pos="0 0 1.2" axis="0 0 1"/>
 			<joint type="hinge" pos="0 0 1.2" axis="0 1 0"/>
 
+			<!-- Extra DOFs
 			<joint type="slide" pos="0 0 1.2" axis="0 1 0"/>
 			<joint type="hinge" pos="0 0 1.2" axis="0 0 1"/>
 			<joint type="hinge" pos="0 0 1.2" axis="1 0 0"/>
+			-->
 
 			<body name="leftupper">
 				<geom type="capsule" fromto="0 -0.2 1.2  0 -0.2 0.6" size="0.1"/>

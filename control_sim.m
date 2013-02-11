@@ -1,5 +1,5 @@
 mj('clear');
-mj('load', 'test.mjb');
+mj('load', 'test.xml');
 m = mj('getmodel');
 mj('reset');
 
@@ -14,5 +14,4 @@ for i = 1:10000
     mj('set','qfrc_external', f);    
     mj('step', 35);
     mjplot;
-    drawnow;
 end
