@@ -1,0 +1,72 @@
+mujoco (!)                    version discardvisual 
+   compiler (?)               maxcontact maxjacobian fixmass 
+                              uniquevertex settotalmass autofitgeom 
+                              fitscale inertiafromgeom 
+   engine (?)                 modelname nuserdata nuserstack 
+                              timestep gravity viscosity wind 
+                              eqerrreduce imperrreduce posthoccoef 
+                              softclamp reginv regimpulse mindistscl 
+                              disableflags integrator collisionmode 
+                              sweeps posthoc consolidate remotecontact 
+                              linesearch 
+      impulse (*)             type algorithm atype maxiter 
+   default (?)                
+      joint (?)               limtype fritype stiffness mindist 
+                              armature damping frictionloss maxvel 
+                              makeactuator 
+      geom (?)                contype condim colmask friction 
+                              mindist density rgba meshscale 
+                              meshpos meshquat 
+      tendon (?)              limtype mindist stiffness damping 
+                              makeactuator 
+      actuator (?)            dyntype trntype gaintype dynprm 
+                              trnprm gainprm limit 
+   world (!)                  coordinate angle euler meshdir 
+      body (R)                name tag pos quat visccoef viscscale 
+                              axisangle xyaxes zaxis euler 
+         inertial (?)         pos quat mass inertia axisangle 
+                              xyaxes zaxis euler fullinertia 
+         joint (*)            name type limtype fritype tag pos 
+                              axis stiffness limit mindist reference 
+                              armature damping frictionloss maxvel 
+                              makeactuator 
+      site (*)                name group tag pos quat axisangle 
+                              xyaxes zaxis euler 
+      geom (*)                name type contype condim colmask 
+                              tag size rgba friction density 
+                              mindist fromto pos quat mass inertia 
+                              axisangle xyaxes zaxis euler fullinertia 
+                              meshfile meshscale meshpos meshquat 
+   collision (?)              makepair defaultpairstate 
+      enable (*)              geom1 geom2 type dim friction mindist 
+      disable (*)             geom1 geom2 
+   constraint (?)             
+      point (*)               name tag body1 body2 pos1 pos2 
+      joint (*)               name tag joint1 joint2 polydeg 
+                              polycoef 
+      tendon (*)              name tag tendon length 
+      user (*)                name tag type1 type2 name1 name2 
+                              size ndata data 
+   tendon (?)                 
+      spatial (*)             name limtype tag limit mindist 
+                              stiffness damping makeactuator 
+         site (*)             site 
+         geom (*)             geom sidesite 
+         pulley (*)           divisor 
+      fixed (*)               name limtype tag limit mindist 
+                              stiffness damping makeactuator 
+         joint (*)            joint coef 
+   actuator (?)               
+      motor (*)               name tag limit joint gear 
+      muscle (*)              name tag limit tau tendon 
+      pneumatic-slidercrank (*)name tag limit dynprm area cranksite 
+                               slidersite rod diameter 
+      pneumatic-joint (*)     name tag limit dynprm area joint 
+                              gear diameter 
+      pneumatic-tendon (*)    name tag limit dynprm area tendon 
+                              diameter 
+      general (*)             name tag limit dyntype trntype 
+                              gaintype dynprm trnprm gainprm 
+                              target slidersite 
+   custom (?)                 
+      field (*)               name tag size data 
