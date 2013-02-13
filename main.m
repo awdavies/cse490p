@@ -16,15 +16,15 @@ state = states.SWING_RIGHT;
 f = zeros(1,9);
 for i = 1:10000
     mj('step1');
-    [q,v,x] = mj('get','qpos','qvel','geom_xpos');
+    [q,v,x,q_cart] = mj('get','qpos','qvel','geom_xpos','xaxis');
     
     % switch states if necessary
     change_state(state);
     
     if (state == states.SWING_RIGHT || state == states.SWING_LEFT)
-        %f = swing(state,qpos,qvel,xaxis,body_pref,thigh_pref,knee_pref,ankle_pref,kp,kd,cd,cv)
+        %f = swing(state,q,v,q_cart,body_pref,thigh_pref,knee_pref,ankle_pref,kp,kd,cd,cv)
     else
-        f = balance(state);
+        %f = balance(state,...);
     end
     
     mj('set','qfrc_external',f);
