@@ -1,30 +1,54 @@
 % tuning parameters
-kp = 1;
-kd = 1;
-cd = 1;
-cv = 1;
-body_pref = 0;
-thigh_pref = 0;
-knee_pref = 0;
-ankle_pref = 0;
+params.kp = 0;
+params.kd = 0;
+params.cd = 0;
+params.cv = 0;
+
+% State change thresholds
+THRESHOLD.stand = 0.7;
+THRESHOLD.swing = 2.0;
+THRESHOLD.force = 0;
+
+% Target swing angles
+SWING = zeros(9,1);
+
+% Target stand angles
+STAND = zeros(9,1);
 
 mj('clear');
 mj('load', 'test.xml');
+m = mj('getmodel');
 mj('reset');
 
 state = states.SWING_RIGHT;
-f = zeros(9, 1);
+f = zeros(9,1);
+timer = 0;
+
 for i = 1:10000
     mj('step1');
-    [q,v,x,q_cart] = mj('get','qpos','qvel','geom_xpos','xaxis');
+    [q,v,x,n,com,dt] = mj('get','qpos','qvel','geom_xpos','contact','com','dt');
     
+    % Object to pass state to controller
+    model.q = q;
+    model.v = v;
+    model.x = x;
+    model.n = n;
+    model.com = com;
+    
+    J = zeros(3,m.nq,m.nbody);
+    for i = 0:m.nbody-1
+        J(:,:,i+1) = mj('jacbodycom',i);
+    end
+        
     % switch states if necessary
-    change_state(state);
+    [state,timer] = change_state(state,timer,THRESHOLD,n);
+    
+    timer = timer + dt;
     
     if (state == states.SWING_RIGHT || state == states.SWING_LEFT)
-        %f = swing(state,q,v,q_cart,body_pref,thigh_pref,knee_pref,ankle_pref,kp,kd,cd,cv)
+        f = controller(state,m,J,SWING,model,params);
     else
-        %f = balance(state,...);
+        f = controller(state,m,J,STAND,model,params);
     end
     
     mj('set','qfrc_external',f);
