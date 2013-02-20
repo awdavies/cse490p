@@ -4,8 +4,8 @@ q_diff = zeros(9,1);
 % thigh_pref += cd * d_com + cv * v_com
 
 if (state == states.SWING_RIGHT)
-    cart_body_angle = xaxis(3,1);    % ? get world angle
-    cart_thigh_angle = xaxis(4,1);   % ? get world angle
+    cart_body_angle = xaxis(3,1);    % ? get world angle ximat
+    cart_thigh_angle = xaxis(4,1);   % ? get world angle ximat
     knee_angle = qpos(5);
     ankle_angle = qpos(6);
     
@@ -23,7 +23,7 @@ if (state == states.SWING_RIGHT)
     torque_stand = -1 * torque_body - torque_thigh;
     
     % compute remaining torques...
-    % f = [0, 0, torque_body, torque_thigh, etc...]
+    % f = [0, 0, 0, torque_thigh, etc...]
 else
     % reflect across body
 end

@@ -1,7 +1,8 @@
 # Ignore binary files
 *.exe
 *.mexw64
-*.mjb  #Ignore mjb files (compiled models).
+#Ignore mjb files (compiled models).
+*.mjb
 *.asv
 # Ignore log files
-MUJOCO_LOG.TXT
+*.txt
