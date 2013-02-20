@@ -3,3 +3,4 @@ classdef states
         STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT
     end
 end
+

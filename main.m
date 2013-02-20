@@ -13,7 +13,7 @@ mj('load', 'test.xml');
 mj('reset');
 
 state = states.SWING_RIGHT;
-f = zeros(1,9);
+f = zeros(9, 1);
 for i = 1:10000
     mj('step1');
     [q,v,x,q_cart] = mj('get','qpos','qvel','geom_xpos','xaxis');
@@ -29,4 +29,5 @@ for i = 1:10000
     
     mj('set','qfrc_external',f);
     mj('step2');
+    mjplot;
 end

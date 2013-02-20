@@ -1,6 +1,8 @@
 function f = swing(state,qpos,qvel,xaxis,body_pref,thigh_pref,knee_pref,ankle_pref,kp,kd,cd,cv)
 
 q_diff = zeros(9,1);
+
+% Find vcom.
 % thigh_pref += cd * d_com + cv * v_com
 
 if (state == states.SWING_RIGHT)
@@ -26,6 +28,16 @@ if (state == states.SWING_RIGHT)
     % f = [0, 0, 0, torque_thigh, etc...]
 else
     % reflect across body
+end
+
+
+
+
+% Get rotation matrix from specific index.  Used for converting to world
+% coordinates rather than 
+function rot = get_rot_matrix(idx)
+    ximat = mj('get', 'ximat');
+    rot = reshape(ximat(idx, :), 3, 3);
 end
 
 end
