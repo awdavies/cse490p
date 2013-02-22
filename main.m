@@ -1,19 +1,16 @@
-% tuning parameters
-params.kp = 0;
-params.kd = 0;
-params.cd = 0;
-params.cv = 0;
+% pd tuning parameters
+params.kp = 10;
+params.kd = 20;
+
+params.cd = 1;
+params.cv = 1;
 
 % State change thresholds
 THRESHOLD.stand = 0.7;
 THRESHOLD.swing = 2.0;
 THRESHOLD.force = 0;
 
-% Target swing angles
-SWING = zeros(9,1);
 
-% Target stand angles
-STAND = zeros(9,1);
 
 mj('clear');
 mj('load', 'test.xml');
@@ -36,22 +33,19 @@ for i = 1:10000
     model.com = com;
     
     J = zeros(3,m.nq,m.nbody);
-    for i = 0:m.nbody-1
-        J(:,:,i+1) = mj('jacbodycom',i);
+    for j = 0:m.nbody-1
+        J(:,:,j + 1) = mj('jacbodycom', j);
     end
         
     % switch states if necessary
-    [state,timer] = change_state(state,timer,THRESHOLD,n);
+    %[state,timer] = change_state(state,timer,THRESHOLD,n);
     
-    timer = timer + dt;
-    
-    if (state == states.SWING_RIGHT || state == states.SWING_LEFT)
-        f = controller(state,m,J,SWING,model,params);
-    else
-        f = controller(state,m,J,STAND,model,params);
-    end
+    %timer = timer + dt;
+    f = controller(state,m,J,state.get_target(),model,params);
     
     mj('set','qfrc_external',f);
     mj('step2');
-    mjplot;
+    if mod(i, 10) == 0
+        mjplot;
+    end
 end
