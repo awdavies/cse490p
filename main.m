@@ -1,14 +1,14 @@
 % pd tuning parameters
-params.kp = 10;
-params.kd = 20;
+params.kp = 560;
+params.kd = 70;
 
 params.cd = 1;
 params.cv = 1;
 
 % State change thresholds
-THRESHOLD.stand = 0.7;
-THRESHOLD.swing = 2.0;
-THRESHOLD.force = 0;
+THRESHOLD.stand = 0.8;
+THRESHOLD.swing = pi / 10;
+THRESHOLD.force = 500;
 
 
 
@@ -21,7 +21,7 @@ state = states.SWING_RIGHT;
 f = zeros(9,1);
 timer = 0;
 
-for i = 1:10000
+for i = 1:100000
     mj('step1');
     [q,v,x,n,com,dt] = mj('get','qpos','qvel','geom_xpos','contact','com','dt');
     
@@ -38,14 +38,14 @@ for i = 1:10000
     end
         
     % switch states if necessary
-    %[state,timer] = change_state(state,timer,THRESHOLD,n);
+    [state,timer] = change_state(state,timer,THRESHOLD,n);
     
-    %timer = timer + dt;
+    timer = timer + dt;
     f = controller(state,m,J,state.get_target(),model,params);
     
     mj('set','qfrc_external',f);
     mj('step2');
-    if mod(i, 10) == 0
+    if mod(i, 20) == 0
         mjplot;
     end
 end
