@@ -45,7 +45,7 @@ for i = 1:100000
     
     mj('set','qfrc_external',f);
     mj('step2');
-    if mod(i, 20) == 0
+    if mod(i, 13) == 0
         mjplot;
     end
 end
