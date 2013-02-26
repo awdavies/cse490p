@@ -35,7 +35,7 @@ for i = 1:100000
     % Ignore the DOF regarding the position of the torso.
     % These numbers should always be in the beginning of the model
     % file for portability reasons.
-    J = zeros(joints.TORSO_XZ, m.nq, m.nbody);
+    J = zeros(joints.TORSO_DOF_RANGE(end), m.nq, m.nbody);
     for j = 0:m.nbody-1
         J(:,:,j + 1) = mj('jacbodycom', j);
     end

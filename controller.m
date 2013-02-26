@@ -3,7 +3,7 @@ function f = controller(state,m,J,target,model,params)
 f = params.kp * (target - model.q) - params.kd * (model.v);
 
 % Set torso's external forces to zero.
-f(joints.TORSO_X:joints.TORSO_XZ) = zeros(joints.TORSO_X,joints.TORSO_XZ);
+f(joints.TORSO_DOF_RANGE) = zeros(joints.TORSO_DOF_RANGE(1),joints.TORSO_DOF_RANGE(end));
 
 % if (state == states.SWING_RIGHT || state == states.SWING_LEFT)
 %     % Find v_com
