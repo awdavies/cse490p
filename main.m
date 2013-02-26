@@ -48,9 +48,9 @@ for i = 1:100000
     timer = timer + dt;
 
     % Switch to world coordinates (this may end up being a bit wonky).
-%    q_torso = model.q(joints.TORSO_XZ);
-%    model.q(joints.RIGHT_THIGH_XZ) = model.q(joints.RIGHT_THIGH_XZ) - q_torso;
-%    model.q(joints.LEFT_THIGH_XZ) = model.q(joints.LEFT_THIGH_XZ) - q_torso;
+    q_torso = model.q(joints.TORSO_XZ);
+    model.q(joints.RIGHT_THIGH_XZ) = model.q(joints.RIGHT_THIGH_XZ) - q_torso;
+    model.q(joints.LEFT_THIGH_XZ) = model.q(joints.LEFT_THIGH_XZ) - q_torso;
     f = controller(state, m, J, state.get_target(), model, params);
     
     mj('set', 'qfrc_external', f);
