@@ -32,18 +32,21 @@ for i = 1:100000
     model.n = n;
     model.com = com;
     
-    J = zeros(3,m.nq,m.nbody);
+    % Ignore the DOF regarding the position of the torso.
+    % These numbers should always be in the beginning of the model
+    % file for portability reasons.
+    J = zeros(joints.TORSO_XZ, m.nq, m.nbody);
     for j = 0:m.nbody-1
         J(:,:,j + 1) = mj('jacbodycom', j);
     end
         
     % switch states if necessary
-    [state,timer] = change_state(state,timer,THRESHOLD,n);
+    [state, timer] = change_state(state, timer, THRESHOLD,n);
     
     timer = timer + dt;
-    f = controller(state,m,J,state.get_target(),model,params);
+    f = controller(state, m, J, state.get_target(), model, params);
     
-    mj('set','qfrc_external',f);
+    mj('set', 'qfrc_external', f);
     mj('step2');
     if mod(i, 13) == 0
         mjplot;
