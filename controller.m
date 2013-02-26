@@ -5,11 +5,11 @@ switch(state)
     case {states.STAND_RIGHT, states.SWING_RIGHT}
         swing_joint = joints.RIGHT_THIGH_XZ;
         stand_joint = joints.LEFT_THIGH_XZ;
-        stance_foot_x = model.x(joints.LEFT_FOOT_XZ, :)';
+        stance_foot_x = model.x(joints.RIGHT_FOOT_XZ);
     case {states.STAND_LEFT, states.SWING_LEFT}
         swing_joint = joints.LEFT_THIGH_XZ;
         stand_joint = joints.RIGHT_THIGH_XZ;
-        stance_foot_x = model.x(joints.RIGHT_FOOT_XZ, :)';
+        stance_foot_x = model.x(joints.LEFT_FOOT_XZ);
     otherwise
 	      disp('WARNING: Unrecognized stance!');
 end
@@ -17,21 +17,20 @@ end
 % Determine whether we're swinging so as to apply balance
 % feedback.  This will determine where to place the swing foot.
 if state == states.SWING_RIGHT || state == states.SWING_LEFT
-    % Find velocity of the center of mass.
+    % Find velocity of the center of mass.  This will grab all of
+    % the x vectors and add them together.
     weighted_xvel = zeros(3, m.nbody);
     for i = 1:m.nbody
         weighted_xvel(:, i) = J(:,:, i) * model.v * m.body_mass(i);
     end
-    v_com = sum(weighted_xvel(3, :));
+    v_com = sum(weighted_xvel(1, :));
 
     % Find distance from ankle to center of mass and adjust
     % target (only pay attention to the XY plane).
-    stance_foot_dist = model.com - stance_foot_x;
+    stance_foot_dist = stance_foot_x - model.com(1);
 
     % The '1' is a placeholder until the velocity is calculated.
-    target(swing_joint) = -(target(swing_joint) + stance_foot_dist(1) + 1.5);
-    %target(swing_joint + 1) = target(swing_joint) + stance_foot_dist(1) + 1.5;
-
+    target(swing_joint) = target(swing_joint) + stance_foot_dist(1) * params.cd + v_com * params.cv;
 end
 
 

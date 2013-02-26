@@ -1,18 +1,16 @@
 clear % Clear out everything!
 
 % pd tuning parameters
-params.kp = 1160;
-params.kd = 70;
+params.kp = 860;
+params.kd = 72;
 
-params.cd = 2200;
-params.cv = 100;
+params.cd = 2.0;
+params.cv = 0.00;
 
 % State change thresholds
 THRESHOLD.stand = 0.1;
-THRESHOLD.swing = 0.25;
+THRESHOLD.swing = 0.18;
 THRESHOLD.force = 0;
-
-
 
 mj('clear');
 mj('load', 'test.xml');
@@ -51,6 +49,7 @@ for i = 1:100000
     q_torso = model.q(joints.TORSO_XZ);
     model.q(joints.RIGHT_THIGH_XZ) = model.q(joints.RIGHT_THIGH_XZ) - q_torso;
     model.q(joints.LEFT_THIGH_XZ) = model.q(joints.LEFT_THIGH_XZ) - q_torso;
+
     f = controller(state, m, J, state.get_target(), model, params);
     
     mj('set', 'qfrc_external', f);
