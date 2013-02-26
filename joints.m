@@ -12,7 +12,7 @@ classdef joints
 	properties (Constant)
 		TORSO_DOF_RANGE = 1:3;
 		TORSO_X = 1;
-		TORSO_Y = 2;
+		TORSO_Z = 2;
 		TORSO_XZ = 3;
 		RIGHT_THIGH_XZ = 4;
 		RIGHT_SHIN_XZ = 5;
