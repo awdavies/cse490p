@@ -2,11 +2,9 @@ classdef states
     enumeration
         STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT,
     end
-    
-    
-    methods
-        function target = get_target(s)
-            % Target swing angles
+
+    properties (Constant)
+        % Target swing angles
             SWING_RIGHT_TARGET =  [0.0000;
                                   0.0000;
                                   0.0000;
@@ -47,15 +45,20 @@ classdef states
                                   0.0000; 
                                   0.0000; 
                           0.0000];
-            
+    
+    end
+    
+    
+    methods
+        function target = get_target(s)
             if (s == states.SWING_RIGHT)
-                target = SWING_RIGHT_TARGET;
+                target = states.SWING_RIGHT_TARGET;
             elseif (s == states.SWING_LEFT)
-                target = SWING_LEFT_TARGET;
+                target = states.SWING_LEFT_TARGET;
             elseif (s == states.STAND_RIGHT)
-                target = STAND_RIGHT_TARGET;
+                target = states.STAND_RIGHT_TARGET;
             else
-               	target = STAND_LEFT_TARGET;
+               	target = states.STAND_LEFT_TARGET;
             end
         end
     end
