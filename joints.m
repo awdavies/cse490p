@@ -1,6 +1,6 @@
 % Defines joint indices for specific DOFs
 %
-% Will need to be changes if the model is changed.
+% Will need to be changed if the model is changed.
 % the ending bit is for the type of joint movement.  XZ
 % would imply rotation along the XZ plane.  X would imply
 % a point on the X line.
