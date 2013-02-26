@@ -1,3 +1,5 @@
+clear % Clear out everything!
+
 % pd tuning parameters
 params.kp = 560;
 params.kd = 70;
@@ -18,7 +20,7 @@ m = mj('getmodel');
 mj('reset');
 
 state = states.SWING_RIGHT;
-f = zeros(9,1);
+f = zeros(joints.TOTAL_DOF,1);
 timer = 0;
 
 for i = 1:100000
