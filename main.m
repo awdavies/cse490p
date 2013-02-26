@@ -1,11 +1,11 @@
 clear % Clear out everything!
 
 % pd tuning parameters
-params.kp = 860;
+params.kp = 480;
 params.kd = 72;
 
-params.cd = 2.0;
-params.cv = 0.00;
+params.cd = 1.8;
+params.cv = 0.14;
 
 % State change thresholds
 THRESHOLD.stand = 0.1;

@@ -19,18 +19,18 @@ end
 if state == states.SWING_RIGHT || state == states.SWING_LEFT
     % Find velocity of the center of mass.  This will grab all of
     % the x vectors and add them together.
-    weighted_xvel = zeros(3, m.nbody);
+    xvel = zeros(3, m.nbody);
     for i = 1:m.nbody
-        weighted_xvel(:, i) = J(:,:, i) * model.v * m.body_mass(i);
+        xvel(:, i) = J(:,:, i) * model.v;
     end
-    v_com = sum(weighted_xvel(1, :));
+    v_com = sum(xvel(1, :));
 
     % Find distance from ankle to center of mass and adjust
     % target (only pay attention to the XY plane).
     stance_foot_dist = stance_foot_x - model.com(1);
 
     % The '1' is a placeholder until the velocity is calculated.
-    target(swing_joint) = target(swing_joint) + stance_foot_dist(1) * params.cd + v_com * params.cv;
+    target(swing_joint) = target(swing_joint) + stance_foot_dist(1) * params.cd - v_com * params.cv;
 end
 
 
