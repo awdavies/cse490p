@@ -1,16 +1,16 @@
 clear % Clear out everything!
 
 % pd tuning parameters
-params.kp = 560;
+params.kp = 1160;
 params.kd = 70;
 
-params.cd = 1;
-params.cv = 1;
+params.cd = 2200;
+params.cv = 100;
 
 % State change thresholds
-THRESHOLD.stand = 0.8;
-THRESHOLD.swing = pi / 10;
-THRESHOLD.force = 500;
+THRESHOLD.stand = 0.1;
+THRESHOLD.swing = 0.25;
+THRESHOLD.force = 0;
 
 
 
@@ -37,20 +37,25 @@ for i = 1:100000
     % Ignore the DOF regarding the position of the torso.
     % These numbers should always be in the beginning of the model
     % file for portability reasons.
-    J = zeros(joints.TORSO_DOF_RANGE(end), m.nq, m.nbody);
+    J = zeros(3, m.nq, m.nbody);
     for j = 0:m.nbody-1
         J(:,:,j + 1) = mj('jacbodycom', j);
     end
         
     % switch states if necessary
-    [state, timer] = change_state(state, timer, THRESHOLD,n);
+    [state, timer] = change_state(state, timer, THRESHOLD, n);
     
     timer = timer + dt;
+
+    % Switch to world coordinates (this may end up being a bit wonky).
+%    q_torso = model.q(joints.TORSO_XZ);
+%    model.q(joints.RIGHT_THIGH_XZ) = model.q(joints.RIGHT_THIGH_XZ) - q_torso;
+%    model.q(joints.LEFT_THIGH_XZ) = model.q(joints.LEFT_THIGH_XZ) - q_torso;
     f = controller(state, m, J, state.get_target(), model, params);
     
     mj('set', 'qfrc_external', f);
     mj('step2');
-    if mod(i, 13) == 0
+    if mod(i, 20) == 0
         mjplot;
     end
 end
