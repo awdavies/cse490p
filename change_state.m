@@ -10,9 +10,15 @@ new_state = old_state;
 %
 %   [stand_left]---- left foot strike --->  [swing_right]--, 
 %                                                           `\
-%   ^	
+%   ^                                                        | 
+%   |                                                        |
+%                                                            |
+% time > swing_time                                          |
+%   	
 %   |                                		time > swing_time 
-%   |
+%
+% [swing_right]                                            |
+%                                                         /
 %   |                                                   _/
 %   `----- right foot strike ----[stand_right]  <------` 
 %
