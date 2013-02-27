@@ -4,6 +4,18 @@ function [new_state,timer] = change_state(old_state, t, threshold, contact)
 timer = t;
 new_state = old_state;
 
+% Switch state depending on the current state, and the change params.
+% For this model, the finite state machine modeled is supposed to look
+% this:
+%
+%   [stand_left]---- left foot strike --->  [swing_right]--, 
+%                                                           `\
+%   ^	
+%   |                                		time > swing_time 
+%   |
+%   |                                                   _/
+%   `----- right foot strike ----[stand_right]  <------` 
+%
 switch(old_state)
     % TODO: Remove hard coded foot numbers.
     case states.SWING_LEFT
