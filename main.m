@@ -1,26 +1,28 @@
-clear % Clear out everything!
-
-% pd tuning parameters
-params.kp = 480;
-params.kd = 72;
-
-params.cd = 1.8;
-params.cv = 0.14;
-
-% State change thresholds
-THRESHOLD.stand = 0.1;
-THRESHOLD.swing = 0.18;
-THRESHOLD.force = 0;
-
+% Pre-sim cleanup.  Get model, etc.
+clear
 mj('clear');
 mj('load', 'test.xml');
 m = mj('getmodel');
 mj('reset');
 
+% pd tuning parameters
+params.kp = 700;   % Spring coefficient.
+params.kd = 72;    % Damping coefficient.
+params.cd = 1.8;   % D_COM angle scale factor.
+params.cv = 0.14;  % V_COM angle scale factor.
+
+% State change thresholds
+THRESHOLD.swing = 0.3;  % Time in seconds to swing.
+THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
+
+% Initial conditions.
 state = states.SWING_RIGHT;
 f = zeros(joints.TOTAL_DOF,1);
 timer = 0;
 
+%-----------------------
+%    Main Loop
+%-----------------------
 for i = 1:100000
     mj('step1');
     [q,v,x,n,com,dt] = mj('get','qpos','qvel','geom_xpos','contact','com','dt');
@@ -32,26 +34,19 @@ for i = 1:100000
     model.n = n;
     model.com = com;
     
-    % Ignore the DOF regarding the position of the torso.
-    % These numbers should always be in the beginning of the model
-    % file for portability reasons.
+    % Setup jacobian for com.  com is in three dimensions, hence the 3.
+    % converts to one 3 x m.nq matrix per body.
     J = zeros(3, m.nq, m.nbody);
     for j = 0:m.nbody-1
         J(:,:,j + 1) = mj('jacbodycom', j);
     end
         
-    % switch states if necessary
+    % Check/change state.
     [state, timer] = change_state(state, timer, THRESHOLD, n);
-    
     timer = timer + dt;
 
-    % Switch to world coordinates (this may end up being a bit wonky).
-    q_torso = model.q(joints.TORSO_XZ);
-    model.q(joints.RIGHT_THIGH_XZ) = model.q(joints.RIGHT_THIGH_XZ) + q_torso;
-    model.q(joints.LEFT_THIGH_XZ) = model.q(joints.LEFT_THIGH_XZ) + q_torso;
-
+    % Run controller.
     f = controller(state, m, J, state.get_target(), model, params);
-    
     mj('set', 'qfrc_external', f);
     mj('step2');
     if mod(i, 20) == 0
