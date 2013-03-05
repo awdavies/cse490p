@@ -1,12 +1,13 @@
 % Pre-sim cleanup.  Get model, etc.
 clear
 mj('clear');
-mj('load', 'test.xml');
+mj('load', 'humanoid.xml');
 m = mj('getmodel');
 mj('reset');
 
 % pd tuning parameters
-params.kp = 480;   % Spring coefficient.
+% TODO: Change to vector. hips of steel needed.
+params.kp = 800;   % Spring coefficient.
 params.kd = 72;    % Damping coefficient.
 params.cd = 1.8;   % D_COM angle scale factor.
 params.cv = 0.14;  % V_COM angle scale factor.

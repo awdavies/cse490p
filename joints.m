@@ -10,7 +10,7 @@
 % xml definition to make changes minimal.
 classdef joints
 	properties (Constant)
-		TOTAL_DOF = 9;
+		TOTAL_DOF = 19;
 		TORSO_DOF_RANGE = 1:3;
 		TORSO_X = 1;
 		TORSO_Z = 2;
@@ -22,5 +22,4 @@ classdef joints
 		LEFT_SHIN_XZ = 8;
 		LEFT_FOOT_XZ = 9;
 	end
-
 end

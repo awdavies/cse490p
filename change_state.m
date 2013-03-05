@@ -36,14 +36,14 @@ switch(old_state)
         end
     case states.STAND_LEFT
         for i = 1:length(contact)
-            if (contact(i).obj2 == 8)
+            if (contact(i).obj2 == 7)
                   new_state = states.SWING_RIGHT;
                   timer = 0;
             end
         end
     case states.STAND_RIGHT
         for i = 1:length(contact)
-            if (contact(i).obj2 == 5)
+            if (contact(i).obj2 == 10)
                   new_state = states.SWING_LEFT;
                   timer = 0;
             end
