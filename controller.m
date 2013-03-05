@@ -35,7 +35,7 @@ if state == states.SWING_RIGHT || state == states.SWING_LEFT
     stance_foot_dist = stance_foot_x - model.com(1);
 
     % Scales the target swing angle proportional to d_com, v_com
-    balance_comp = stance_foot_dist(1) * params.cd + v_com * params.cv;
+    balance_comp = stance_foot_dist(1) * params.cd - v_com * params.cv;
     
     % The '1' is a placeholder until the velocity is calculated.
     target(swing_joint) = target(swing_joint) + balance_comp;

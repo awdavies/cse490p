@@ -6,7 +6,7 @@ m = mj('getmodel');
 mj('reset');
 
 % pd tuning parameters
-params.kp = 700;   % Spring coefficient.
+params.kp = 480;   % Spring coefficient.
 params.kd = 72;    % Damping coefficient.
 params.cd = 1.8;   % D_COM angle scale factor.
 params.cv = 0.14;  % V_COM angle scale factor.
@@ -47,6 +47,7 @@ for i = 1:100000
 
     % Run controller.
     f = controller(state, m, J, state.get_target(), model, params);
+
     mj('set', 'qfrc_external', f);
     mj('step2');
     if mod(i, 20) == 0
