@@ -42,7 +42,7 @@ if state == states.SWING_RIGHT || state == states.SWING_LEFT
 end
 
 % Do initial push control.
-f = params.kp * (target - model.q) - params.kd * (model.v);
+f = params.kp .* (target - model.q) - params.kd .* (model.v);
 
 % Calculate/set torque now that we know the stance legs.
 t_swing = f(swing_joint);
@@ -51,13 +51,12 @@ t_stand = f(stand_joint);
 % Create a virtual target torque for the torso, then set the
 % difference between the two hip torques to mitigate for the lack
 % of actuation.
-t_torso = params.kp * (target(joints.TORSO_XZ) - model.q(joints.TORSO_XZ)) - params.kd * model.v(joints.TORSO_XZ);
+t_torso = params.kp(joints.TORSO_XZ) * (target(joints.TORSO_XZ) - model.q(joints.TORSO_XZ)) - params.kd(joints.TORSO_XZ) * model.v(joints.TORSO_XZ);
 t_stand = -t_torso - t_swing; % <-- set virtual torque to actuators.
 f(stand_joint) = t_stand;
 
 % Set torso's external forces to zero.
 f(joints.TORSO_DOF_RANGE) = zeros(joints.TORSO_DOF_RANGE(1),joints.TORSO_DOF_RANGE(end));
 
-% Sets finger external forces to zero.
-f(12:15) = zeros();
+% Keeps the ball force at zero!
 f(18:19) = zeros();

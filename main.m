@@ -6,11 +6,14 @@ m = mj('getmodel');
 mj('reset');
 
 % pd tuning parameters
-% TODO: Change to vector. hips of steel needed.
-params.kp = 800;   % Spring coefficient.
-params.kd = 72;    % Damping coefficient.
+params.kp = ones(19, 1) * 800;   % Spring coefficient.
+params.kd = ones(19, 1) * 72;    % Damping coefficient.
 params.cd = 1.8;   % D_COM angle scale factor.
 params.cv = 0.14;  % V_COM angle scale factor.
+
+% Params for fingers.
+params.kp(12:15) = 2;
+params.kd(12:15) = 0.5;
 
 % State change thresholds
 THRESHOLD.swing = 0.3;  % Time in seconds to swing.
