@@ -1,5 +1,7 @@
 function f = controller(state,m,J,target,model,params)
 
+global MODEL_WALK;
+
 % Switch to world coordinates (this may end up being a bit wonky).
 q_torso = model.q(joints.TORSO_XZ);
 model.q(joints.RIGHT_THIGH_XZ) = model.q(joints.RIGHT_THIGH_XZ) + q_torso;
@@ -21,7 +23,7 @@ end
 
 % Determine whether we're swinging so as to apply balance
 % feedback.  This will determine where to place the swing foot.
-if state == states.SWING_RIGHT || state == states.SWING_LEFT
+if state == states.SWING_RIGHT || state == states.SWING_LEFT || MODEL_WALK == 0
     % Find velocity of the center of mass.  This will grab all of
     % the x vectors and add them together.
     xvel = zeros(3, m.nbody);
@@ -40,6 +42,7 @@ if state == states.SWING_RIGHT || state == states.SWING_LEFT
     % The '1' is a placeholder until the velocity is calculated.
     target(swing_joint) = target(swing_joint) + balance_comp;
 end
+target
 
 % Do initial push control.
 f = params.kp .* (target - model.q) - params.kd .* (model.v);

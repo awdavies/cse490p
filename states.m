@@ -1,12 +1,12 @@
 classdef states
     enumeration
-        STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT,
+        STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT, STOP
     end
 
     properties (Constant)
         
             % Target stand angles
-            STAND = zeros(19,1);
+            STAND_TARGET = zeros(19,1);
             
             % Target swing angles
             SWING_RIGHT_TARGET = [0.0000 
@@ -96,7 +96,7 @@ classdef states
         function target = get_target(s)
             global MODEL_WALK;
             if (MODEL_WALK == 0)
-                target = states.STAND;
+                target = states.STAND_TARGET;
             elseif (s == states.SWING_RIGHT)
                 target = states.SWING_RIGHT_TARGET;
             elseif (s == states.SWING_LEFT)
