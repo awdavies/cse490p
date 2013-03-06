@@ -1,7 +1,5 @@
 function f = controller(state,m,J,target,model,params)
 
-
-
 % Switch to world coordinates (this may end up being a bit wonky).
 q_torso = model.q(joints.TORSO_XZ);
 model.q(joints.RIGHT_THIGH_XZ) = model.q(joints.RIGHT_THIGH_XZ) + q_torso;
