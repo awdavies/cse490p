@@ -4,7 +4,11 @@ classdef states
     end
 
     properties (Constant)
-        % Target swing angles
+        
+            % Target stand angles
+            STAND = zeros(19,1);
+            
+            % Target swing angles
             SWING_RIGHT_TARGET = [0.0000 
               0.0000
                 0.0000 
@@ -90,7 +94,10 @@ classdef states
     
     methods
         function target = get_target(s)
-            if (s == states.SWING_RIGHT)
+            global MODEL_WALK;
+            if (MODEL_WALK == 0)
+                target = states.STAND;
+            elseif (s == states.SWING_RIGHT)
                 target = states.SWING_RIGHT_TARGET;
             elseif (s == states.SWING_LEFT)
                 target = states.SWING_LEFT_TARGET;

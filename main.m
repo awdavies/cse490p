@@ -5,6 +5,9 @@ mj('load', 'humanoid.xml');
 m = mj('getmodel');
 mj('reset');
 
+% global for stopping/starting walking
+global MODEL_WALK;
+
 % pd tuning parameters
 params.kp = ones(19, 1) * 800;   % Spring coefficient.
 params.kd = ones(19, 1) * 72;    % Damping coefficient.
@@ -23,10 +26,11 @@ THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
 state = states.SWING_RIGHT;
 f = zeros(joints.TOTAL_DOF,1);
 timer = 0;
+MODEL_WALK = 1;
 
 %-----------------------
 %    Main Loop
-%-----------------------
+%----------------------- 
 for i = 1:100000
     mj('step1');
     [q,v,x,n,com,dt] = mj('get','qpos','qvel','geom_xpos','contact','com','dt');

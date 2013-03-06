@@ -454,6 +454,8 @@ set(ax, 'cameraviewangle', cam.angle, ...
 
 function keyPress(fig, evt)
 
+global MODEL_WALK;
+
 % get axis and camera
 ax		= getappdata(fig,'main_ax');
 cam		= get(ax, 'userdata');
@@ -468,8 +470,9 @@ switch evt.Key
 	case 'equal'					% --- GUI toggling
 		 GUI	=  getappdata(fig, 'GUI_ax');
 		 set(GUI,'visible',toggle(get(GUI,'visible')));
-	
-	case {'return','space'}			% --- start/stop simulation
+    case {'space'}
+        MODEL_WALK = 1 - MODEL_WALK;
+	case {'return'}			% --- start/stop simulation
 		running = getappdata(fig,'running_sim');
 		running = ~running;
 		setappdata(fig,'running_sim',running);
