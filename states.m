@@ -1,6 +1,6 @@
 classdef states
     enumeration
-        STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT, STOP
+        STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT, BEGIN_STOP, STOP
     end
 
     properties (Constant)
@@ -9,12 +9,32 @@ classdef states
             STAND_TARGET = [0.0000 
                             0.0000
                             0.0000 
-                           -0.5498 
-                            1.4769 
-                           -0.5236 
-                            0.0000 
-                            0.0000 
+                            -0.3142 
+                              0.2873 
+                              0.0262 
+                              0.1309 
+                              -0.0101 
+                              -0.0838 
+                            0
+                            0
+                            0
+                            0
+                            0
+                            0
+                            0.4163
+                            0.1963 
+                            0
+                            0];
+                        
+           SLOW_DOWN_TARGET = [0.0000 
                             0.0000
+                            0.0000 
+                           -0.6212 
+                            0.4064 
+                            0.0890 
+                            0.2618 
+                           -0.0349 
+                           -0.2094 
                             0
                             0
                             0
@@ -112,9 +132,10 @@ classdef states
     
     methods
         function target = get_target(s)
-            global MODEL_WALK;
-            if (MODEL_WALK == 0)
+            if (s == states.STOP)
                 target = states.STAND_TARGET;
+            elseif (s == states.BEGIN_STOP)
+                target = states.SLOW_DOWN_TARGET;
             elseif (s == states.SWING_RIGHT)
                 target = states.SWING_RIGHT_TARGET;
             elseif (s == states.SWING_LEFT)

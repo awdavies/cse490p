@@ -11,8 +11,8 @@ global MODEL_WALK;
 % pd tuning parameters
 params.kp = ones(19, 1) * 800;   % Spring coefficient.
 params.kd = ones(19, 1) * 72;    % Damping coefficient.
-params.cd = 1.8;   % D_COM angle scale factor.
-params.cv = 0.14;  % V_COM angle scale factor.
+params.cd = 0.8;   % D_COM angle scale factor.
+params.cv = 0.18;  % V_COM angle scale factor.
 
 % Params for fingers.
 params.kp(12:15) = 2;

@@ -1,5 +1,7 @@
 function [new_state,timer] = change_state(old_state, t, threshold, contact)
 
+global MODEL_WALK;
+
 % Default case
 timer = t;
 new_state = old_state;
@@ -22,6 +24,14 @@ new_state = old_state;
 %   |                                                   _/
 %   `----- right foot strike ----[stand_right]  <------` 
 %
+
+% Current stopping method
+% 
+% [swing_right] -> time > swing_time -> [begin_stop]
+%                                             |
+%                             [stop] <- foot strike
+%
+%
 switch(old_state)
     % TODO: Remove hard coded foot numbers.
     case states.SWING_LEFT
@@ -33,20 +43,35 @@ switch(old_state)
         if t >= threshold.swing
             timer = 0;
             new_state = states.STAND_RIGHT;
+            %Transition to final state 
+            if MODEL_WALK == 0
+                new_state = states.BEGIN_STOP;
+            end
         end
     case states.STAND_LEFT
         for i = 1:length(contact)
-            if (contact(i).obj2 == 7)
+            if (contact(i).obj2 == 10)
                   new_state = states.SWING_RIGHT;
                   timer = 0;
             end
         end
     case states.STAND_RIGHT
         for i = 1:length(contact)
-            if (contact(i).obj2 == 10)
+            if (contact(i).obj2 == 7)
                   new_state = states.SWING_LEFT;
                   timer = 0;
             end
+        end
+    case states.BEGIN_STOP
+        for i = 1:length(contact)
+            if (contact(i).obj2 == 7)
+                  new_state = states.STOP;
+                  timer = 0;
+            end
+        end
+    case states.STOP
+        if MODEL_WALK == 1
+            new_state = states.STAND_RIGHT;
         end
     otherwise
         disp('WARNING: Unrecognized stance in change state!');

@@ -106,7 +106,7 @@
 		</body>
 		
 		<body name="ball">
-        <geom type="sphere" pos="1.5 0.25 1.5" size=".1" contype="1" />
+        <geom type="sphere" pos="1.5 0.25 3" size=".1" contype="1" />
         <!-- use y-axis for 3 dimensional arm -->
         <!--<joint type="slide" pos="1.5 0 .1" axis="0 1 0" />-->
         <joint type="slide" pos="1.5 0.25 .1" axis="1 0 0" limtype="1" limit="-100 100"/>
