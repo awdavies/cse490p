@@ -94,8 +94,8 @@ function [u, state] = arm_controller(state)
 
         case GRASP
 
-            k1 = 100;
-            k2 = .1;
+            k1 = 50;
+            k2 = .3;
 
             u = grasp_controller(q, v, x, m, k1, k2);
 
@@ -110,8 +110,8 @@ function [u, state] = arm_controller(state)
 %             k1 = 100;
 %             k2 = 100;
 %             u = approach_controller(q, v, x, ystar, k1, k2);
-            k1 = 100;
-            k2 = .1;
+            k1 = 50;
+            k2 = .3;
             u_grasp = grasp_controller(q, v, x, m, k1, k2);
             u_grasp(1:FINGER1_1_JOINT) = 0;
             u = u + u_grasp;
@@ -169,19 +169,19 @@ function [u, state] = arm_controller(state)
         end
     end
     %}
-    arm_to_ball_dist = norm(site_x(ARM_START_SITE+1, :) - x(BALL_BODY+1, :));
-    contact = mj('get', 'contact');
-    if (arm_to_ball_dist > TOTAL_LENGTH) %&& on_ground)
-        state = APPROACH;
-        u = zeros(length(q), 1);
-    end
+%     arm_to_ball_dist = norm(site_x(ARM_START_SITE+1, :) - x(BALL_BODY+1, :));
+%     if (arm_to_ball_dist > TOTAL_LENGTH) %&& on_ground)
+%         state = APPROACH;
+%         u = zeros(length(q), 1);
+%         disp('Arm zeroed');
+%     end
 
     % If hand is not within two diameters of the ball CM: go to APPROACH
     hand_to_ball_dist = norm(site_x(ARM_END_SITE+1, :) - x(BALL_BODY+1, :));
     if (state ~= APPROACH && hand_to_ball_dist > BALL_RADIUS*4)
         state = APPROACH;
         %dz = FINGER_LENGTH*1.5;
-        %disp('Backtrack to approach');
+        disp('Backtrack to approach');
     end
 
     % Update states
@@ -194,8 +194,7 @@ function [u, state] = arm_controller(state)
             hand_to_finger_dist = norm(site_x(ARM_END_SITE+1, :) - finger_center);
             if ((hand_to_finger_dist - hand_to_ball_dist) > BALL_RADIUS / 2)
                 state = GRASP;
-                %disp('Switched to grasp');
-
+                disp('Switched to grasp');
             end
 
         case GRASP
@@ -237,7 +236,7 @@ function [u, state] = arm_controller(state)
 
             if (span > degtorad(210))
                state = LIFT; 
-               %fprintf('Switched to lifting!\n');
+               fprintf('Switched to lifting!\n');
             end
 
             %ball_vec;
