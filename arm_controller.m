@@ -51,6 +51,7 @@ function [u, state] = arm_controller(state)
     BALL_Z_JOINT = mj('getid', 'joint', 'ball_z');
 
     % Geometric constants
+    global BALL_RADIUS FINGER_LENGTH TOTAL_LENGTH
     BALL_RADIUS = m.geom_size(BALL_GEOM+1, 1);
     FINGER_LENGTH = sum(m.geom_size(FINGER1_1_GEOM+1:FINGER1_2_GEOM+1, 2)*2);
     TOTAL_LENGTH = sum(m.geom_size(ARM_UPPER_GEOM+1:FINGER1_1_GEOM+1, 2)*2);
@@ -65,7 +66,6 @@ function [u, state] = arm_controller(state)
     mj('kinematics');
     mj('forward');
     [q,v,x,site_x,contact] = mj('get','qpos','qvel','xpos','site_xpos','contact');
-    dz = FINGER_LENGTH*1.5; % inital z-distance from ball (used as approach target)
 
     % DEBUG 
     % move ball closer to test approach/grasp on humanoid
@@ -87,7 +87,7 @@ function [u, state] = arm_controller(state)
             k = 10;
             b = .5;
 
-            [u, ystar_approach, dz] = align_controller(q, v, x, dz, k1, k2, k, b);
+            [u, ystar_approach] = align_controller(q, v, x, k1, k2, k, b);
             %y(i+1) = ystar_approach(3);
 
             % success if hand CoM is above the ball and has small velocity: ALIGN
