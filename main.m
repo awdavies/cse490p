@@ -21,9 +21,11 @@ params.kd(12:15) = 0.5;
 % State change thresholds
 THRESHOLD.swing = 0.3;  % Time in seconds to swing.
 THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
+THRESHOLD.stable = 0.5;
 
 % Initial conditions.
 state = states.SWING_RIGHT;
+arm_state = 0;
 f = zeros(joints.TOTAL_DOF,1);
 timer = 0;
 MODEL_WALK = 1;
@@ -55,7 +57,11 @@ for i = 1:100000
 
     % Run controller.
     f = controller(state, m, J, state.get_target(), model, params);
-
+    if (state == states.STABLE)
+        [u, arm_state] = arm_controller(arm_state);
+        f(joints.GRASP_ARM_DOF_RANGE) = u(joints.GRASP_ARM_DOF_RANGE);
+    end
+    
     mj('set', 'qfrc_external', f);
     mj('step2');
     if mod(i, 20) == 0

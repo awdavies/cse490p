@@ -58,34 +58,35 @@
 			</body>
 			
 			<!-- Left Hand -->
-			<body name="Lt_Arm">
-				<geom type="capsule" fromto="0 0.25 2.0 0 0.25 1.5" size=".08" />
-				<joint type="hinge" pos="0 0.25 2.0" axis="0 1 0" limtype="1" limit="-45 90"/>
-
-				<body name="lt_Forearm">
-				  <geom type="capsule" fromto="0 0.25 1.5 0.5 0.25 1.5" size=".065" />
-				  <joint type="hinge" pos="0 0.25 1.5" axis="0 1 0" limtype="1" limit="-45 80" />
+			<body name="upper">
+				<geom name="upper" type="capsule" fromto="0 0.25 2.0 0 0.25 1.5" size=".08" />
+				<joint name="upper" type="hinge" pos="0 0.25 2.0" axis="0 1 0" limtype="1" limit="-45 90"/>
+                <site name="start_upper" pos="0 0.25 2.0" />
+               
+				<body name="lower">
+				  <geom name="lower" type="capsule" fromto="0 0.25 1.5 0.5 0.25 1.5" size=".065" />
+				  <joint name="lower" type="hinge" pos="0 0.25 1.5" axis="0 1 0" limtype="1" limit="-45 80" />
 				  <site name="end_lower" pos="0.5 0.25 1.5" />
 				  
 					<body name="finger1_1">
-						<geom type="capsule" fromto="0.5 0.25 1.5   0.65 0.25 1.65" size=".02" rgba = "1 0.6 0.3 1" contype="1" />
-						<joint limtype="1" limit="-45 35" type="hinge" pos="0.5 0.25 1.5" axis="0 1 0" />
+						<geom name="finger1_1" type="capsule" fromto="0.5 0.25 1.5   0.65 0.25 1.65" size=".02" rgba = "1 0.6 0.3 1" contype="1" />
+						<joint name="finger1_1" limtype="1" limit="-45 35" type="hinge" pos="0.5 0.25 1.5" axis="0 1 0" />
 
 						<body name="finger1_2">
-						  <geom type="capsule" fromto="0.65 0.25 1.65    0.8 0.25 1.65" size=".015" rgba = "1 0.4 0.1 1" contype="1" />
-						  <joint limtype="1" limit="-45 135" type="hinge" pos="0.65 0.25 1.65" axis="0 1 0" />
+						  <geom name="finger1_2" type="capsule" fromto="0.65 0.25 1.65    0.8 0.25 1.65" size=".015" rgba = "1 0.4 0.1 1" contype="1" />
+						  <joint name="finger1_2" limtype="1" limit="-45 135" type="hinge" pos="0.65 0.25 1.65" axis="0 1 0" />
 						  <site name="end_finger1" pos="0.8 0.25 1.65" />
 						</body>
 						
 					</body>
 
 					<body name="finger2_1">
-						<geom type="capsule" fromto = "0.5 0.25 1.5   0.65 0.25 1.35" size=".02" contype="1" />
-						<joint limtype="1" limit="-35 45" type="hinge" pos="0.5 0.25 1.5" axis="0 1 0" />
+						<geom name="finger2_1" type="capsule" fromto = "0.5 0.25 1.5   0.65 0.25 1.35" size=".02" contype="1" />
+						<joint name="finger2_1" limtype="1" limit="-35 45" type="hinge" pos="0.5 0.25 1.5" axis="0 1 0" />
 
 						<body name="finger2_2">
-						  <geom type="capsule" fromto="0.65 0.25 1.35 0.8 0.25 1.35" size=".015" contype="1" />
-						  <joint limtype="1" limit="-135 45" type="hinge" pos="0.65 0.25 1.35" axis="0 1 0" />
+						  <geom name="finger2_2" type="capsule" fromto="0.65 0.25 1.35 0.8 0.25 1.35" size=".015" contype="1" />
+						  <joint name="finger2_2" limtype="1" limit="-135 45" type="hinge" pos="0.65 0.25 1.35" axis="0 1 0" />
 						  <site name="end_finger2" pos="0.8 0.25 1.35" />
 						</body>
 					
@@ -106,11 +107,11 @@
 		</body>
 		
 		<body name="ball">
-        <geom type="sphere" pos="1.5 0.25 3" size=".1" contype="1" />
+        <geom name="ball" type="sphere" pos="1.5 0.25 1.5" size=".1" contype="1" />
         <!-- use y-axis for 3 dimensional arm -->
         <!--<joint type="slide" pos="1.5 0 .1" axis="0 1 0" />-->
-        <joint type="slide" pos="1.5 0.25 .1" axis="1 0 0" limtype="1" limit="-100 100"/>
-        <joint type="slide" pos="1.5 0.25 .1" axis="0 0 1" limtype="1" limit="0 100"/>
+        <joint name="ball_x" type="slide" pos="1.5 0.25 .1" axis="1 0 0" limtype="1" limit="-100 100"/>
+        <joint name="ball_y" type="slide" pos="1.5 0.25 .1" axis="0 0 1" limtype="1" limit="0 100"/>
       </body>
 	</world>
 

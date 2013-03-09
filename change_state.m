@@ -19,7 +19,7 @@ new_state = old_state;
 %   	
 %   |                                		time > swing_time 
 %
-% [swing_right]                                            |
+% [swing_left]                                            |
 %                                                         /
 %   |                                                   _/
 %   `----- right foot strike ----[stand_right]  <------` 
@@ -70,6 +70,14 @@ switch(old_state)
             end
         end
     case states.STOP
+        if MODEL_WALK == 1
+            new_state = states.STAND_RIGHT;
+        end
+        if (timer > threshold.stable)
+            new_state = states.STABLE;
+            timer = 0;
+        end
+    case states.STABLE
         if MODEL_WALK == 1
             new_state = states.STAND_RIGHT;
         end

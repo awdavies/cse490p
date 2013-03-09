@@ -1,5 +1,5 @@
 mj('clear');
-mj('load', 'humanoid(Grasp).mjb');
+mj('load', 'models\humanoid(Grasp).xml');
 m = mj('getmodel');
 mj('reset');
 

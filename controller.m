@@ -7,7 +7,7 @@ model.q(joints.LEFT_THIGH_XZ) = model.q(joints.LEFT_THIGH_XZ) + q_torso;
 
 % Determine swing and stand joints.
 switch(state)
-    case {states.STAND_RIGHT, states.SWING_RIGHT, states.STOP, states.BEGIN_STOP}
+    case {states.STAND_RIGHT, states.SWING_RIGHT, states.STOP, states.BEGIN_STOP, states.STABLE}
         swing_joint = joints.RIGHT_THIGH_XZ;
         stand_joint = joints.LEFT_THIGH_XZ;
         stance_foot_x = model.x(joints.RIGHT_FOOT_XZ);

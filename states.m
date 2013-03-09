@@ -1,6 +1,6 @@
 classdef states
     enumeration
-        STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT, BEGIN_STOP, STOP
+        STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT, BEGIN_STOP, STOP, STABLE
     end
 
     properties (Constant)
@@ -132,7 +132,7 @@ classdef states
     
     methods
         function target = get_target(s)
-            if (s == states.STOP)
+            if (s == states.STOP || s == states.STABLE)
                 target = states.STAND_TARGET;
             elseif (s == states.BEGIN_STOP)
                 target = states.SLOW_DOWN_TARGET;
