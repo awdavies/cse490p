@@ -21,7 +21,7 @@ params.kd(12:15) = 0.5;
 % State change thresholds
 THRESHOLD.swing = 0.3;  % Time in seconds to swing.
 THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
-THRESHOLD.stable = 0.5;
+THRESHOLD.stable = 0.5; % Time to pause between stopping/grasping
 
 % Initial conditions.
 state = states.SWING_RIGHT;
@@ -57,6 +57,8 @@ for i = 1:100000
 
     % Run controller.
     f = controller(state, m, J, state.get_target(), model, params);
+    
+    % Run arm controller if stable
     if (state == states.STABLE)
         [u, arm_state] = arm_controller(arm_state);
         f(joints.GRASP_ARM_DOF_RANGE) = u(joints.GRASP_ARM_DOF_RANGE);
