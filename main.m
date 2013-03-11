@@ -59,7 +59,7 @@ for i = 1:100000
     f = controller(state, m, J, state.get_target(), model, params);
     
     % Run arm controller if stable
-    if (state == states.STABLE)
+    if (state == states.STABLE_LEFT || state == states.STABLE_RIGHT)
         [u, arm_state] = arm_controller(arm_state);
         f(joints.GRASP_ARM_DOF_RANGE) = u(joints.GRASP_ARM_DOF_RANGE);
     end

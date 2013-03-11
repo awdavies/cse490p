@@ -38,6 +38,10 @@ switch(old_state)
         if t >= threshold.swing
             timer = 0;
             new_state = states.STAND_LEFT;
+            %Transition to final state 
+            if MODEL_WALK == 0
+                new_state = states.BEGIN_STOP_LEFT;
+            end
         end
     case states.SWING_RIGHT
         if t >= threshold.swing
@@ -45,7 +49,7 @@ switch(old_state)
             new_state = states.STAND_RIGHT;
             %Transition to final state 
             if MODEL_WALK == 0
-                new_state = states.BEGIN_STOP;
+                new_state = states.BEGIN_STOP_RIGHT;
             end
         end
     case states.STAND_LEFT
@@ -62,24 +66,43 @@ switch(old_state)
                   timer = 0;
             end
         end
-    case states.BEGIN_STOP
+    case states.BEGIN_STOP_RIGHT
         for i = 1:length(contact)
             if (contact(i).obj2 == 7)
-                  new_state = states.STOP;
+                  new_state = states.STOP_RIGHT;
                   timer = 0;
             end
         end
-    case states.STOP
+    case states.BEGIN_STOP_LEFT
+        for i = 1:length(contact)
+            if (contact(i).obj2 == 10)
+                  new_state = states.STOP_LEFT;
+                  timer = 0;
+            end
+        end
+    case states.STOP_RIGHT
         if MODEL_WALK == 1
             new_state = states.STAND_RIGHT;
         end
         if (timer > threshold.stable)
-            new_state = states.STABLE;
+            new_state = states.STABLE_RIGHT;
             timer = 0;
         end
-    case states.STABLE
+    case states.STOP_LEFT
+        if MODEL_WALK == 1
+            new_state = states.STAND_LEFT;
+        end
+        if (timer > threshold.stable)
+            new_state = states.STABLE_LEFT;
+            timer = 0;
+        end
+    case states.STABLE_RIGHT
         if MODEL_WALK == 1
             new_state = states.STAND_RIGHT;
+        end
+    case states.STABLE_LEFT
+        if MODEL_WALK == 1
+            new_state = states.STAND_LEFT;
         end
     otherwise
         disp('WARNING: Unrecognized stance in change state!');

@@ -1,12 +1,13 @@
 classdef states
     enumeration
-        STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT, BEGIN_STOP, STOP, STABLE
+        STAND_LEFT, SWING_RIGHT, STAND_RIGHT, SWING_LEFT, BEGIN_STOP_RIGHT,
+        STOP_RIGHT, STABLE_RIGHT, BEGIN_STOP_LEFT, STOP_LEFT, STABLE_LEFT
     end
 
     properties (Constant)
         
             % Target stand angles
-            STAND_TARGET = [0.0000 
+            STOP_RIGHT_TARGET = [0.0000 
                             0.0000
                             0.0000 
                             -0.2142 
@@ -26,7 +27,7 @@ classdef states
                             0
                             0];
                         
-           SLOW_DOWN_TARGET = [0.0000 
+           SLOW_DOWN_RIGHT_TARGET = [0.0000 
                             0.0000
                             0.0000 
                            -0.6212 
@@ -35,6 +36,47 @@ classdef states
                             0.2618 
                            -0.0349 
                            -0.2094 
+                            0
+                            0.5
+                            0
+                            0
+                            0
+                            0
+                            0.4163
+                            0.5 
+                            0
+                            0];
+                        
+                                    % Target stand angles
+            STOP_LEFT_TARGET = [0.0000 
+                            0.0000
+                            0.0000 
+                              0.1309 
+                              -0.0101 
+                              -0.0838 
+                            -0.2142 
+                              0.2873 
+                              0.0262 
+                            0
+                            0
+                            0
+                            0
+                            0
+                            0
+                            0.4163
+                            0.1963 
+                            0
+                            0];
+                        
+           SLOW_DOWN_LEFT_TARGET = [0.0000 
+                            0.0000
+                            0.0000 
+                            0.2618 
+                           -0.0349 
+                           -0.2094 
+                           -0.6212 
+                            0.4064 
+                            0.0890 
                             0
                             0.5
                             0
@@ -132,10 +174,14 @@ classdef states
     
     methods
         function target = get_target(s)
-            if (s == states.STOP || s == states.STABLE)
-                target = states.STAND_TARGET;
-            elseif (s == states.BEGIN_STOP)
-                target = states.SLOW_DOWN_TARGET;
+            if (s == states.STOP_RIGHT || s == states.STABLE_RIGHT)
+                target = states.STOP_RIGHT_TARGET;
+            elseif (s == states.BEGIN_STOP_RIGHT)
+                target = states.SLOW_DOWN_RIGHT_TARGET;
+            elseif (s == states.STOP_LEFT || s ==states.STABLE_LEFT)
+                target = states.STOP_LEFT_TARGET;
+            elseif (s == states.BEGIN_STOP_LEFT)
+                target = states.SLOW_DOWN_LEFT_TARGET;
             elseif (s == states.SWING_RIGHT)
                 target = states.SWING_RIGHT_TARGET;
             elseif (s == states.SWING_LEFT)

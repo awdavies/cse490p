@@ -7,11 +7,11 @@ model.q(joints.LEFT_THIGH_XZ) = model.q(joints.LEFT_THIGH_XZ) + q_torso;
 
 % Determine swing and stand joints.
 switch(state)
-    case {states.STAND_RIGHT, states.SWING_RIGHT, states.STOP, states.BEGIN_STOP, states.STABLE}
+    case {states.STAND_RIGHT, states.SWING_RIGHT, states.STOP_RIGHT, states.BEGIN_STOP_RIGHT, states.STABLE_RIGHT}
         swing_joint = joints.RIGHT_THIGH_XZ;
         stand_joint = joints.LEFT_THIGH_XZ;
         stance_foot_x = model.x(joints.RIGHT_FOOT_XZ);
-    case {states.STAND_LEFT, states.SWING_LEFT}
+    case {states.STAND_LEFT, states.SWING_LEFT, states.STOP_LEFT, states.BEGIN_STOP_LEFT, states.STABLE_LEFT}
         swing_joint = joints.LEFT_THIGH_XZ;
         stand_joint = joints.RIGHT_THIGH_XZ;
         stance_foot_x = model.x(joints.LEFT_FOOT_XZ);
@@ -21,7 +21,7 @@ end
 
 % Determine whether we're swinging so as to apply balance
 % feedback.  This will determine where to place the swing foot.
-if state == states.SWING_RIGHT || state == states.SWING_LEFT || state == states.STOP || state == states.BEGIN_STOP
+if state == states.SWING_RIGHT || state == states.SWING_LEFT || state == states.STOP_RIGHT || state == states.BEGIN_STOP_RIGHT || state == states.STOP_LEFT || state == states.BEGIN_STOP_LEFT
     % Find velocity of the center of mass.  This will grab all of
     % the x vectors and add them together.
     xvel = zeros(3, m.nbody);
