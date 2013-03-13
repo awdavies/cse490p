@@ -58,32 +58,24 @@ switch(old_state)
             end
         end
     case states.STAND_LEFT
-        for i = 1:length(contact)
-            if (contact(i).obj2 == 10)
-                  new_state = states.SWING_RIGHT;
-                  timer = 0;
-            end
-        end
+        if floor_contact(10, contact)
+            new_state = states.SWING_RIGHT;
+            timer = 0;
+        end 
     case states.STAND_RIGHT
-        for i = 1:length(contact)
-            if (contact(i).obj2 == 7)
-                  new_state = states.SWING_LEFT;
-                  timer = 0;
-            end
+        if floor_contact(7, contact)
+            new_state = states.SWING_LEFT;
+            timer = 0;
         end
 
 %%%% STOPPING STATES.
     case states.BEGIN_STOP_RIGHT
-        for i = 1:length(contact)
-            if (contact(i).obj2 == 7)
-                  new_state = states.STOP_RIGHT;
-            end
+        if floor_contact(7, contact)
+            new_state = states.STOP_RIGHT;
         end
     case states.BEGIN_STOP_LEFT
-        for i = 1:length(contact)
-            if (contact(i).obj2 == 10)
-                  new_state = states.STOP_LEFT;
-            end
+        if floor_contact(10, contact)
+            new_state = states.STOP_LEFT;
         end
     case states.STOP_RIGHT
         if MODEL_WALK == 1
