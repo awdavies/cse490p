@@ -22,13 +22,7 @@ end
 % Determine whether we're swinging so as to apply balance
 % feedback.  This will determine where to place the swing foot.
 if state == states.SWING_RIGHT || state == states.SWING_LEFT || state == states.STOP_RIGHT || state == states.BEGIN_STOP_RIGHT || state == states.STOP_LEFT || state == states.BEGIN_STOP_LEFT
-    % Find velocity of the center of mass.  This will grab all of
-    % the x vectors and add them together.
-    xvel = zeros(3, m.nbody);
-    for i = 1:m.nbody
-        xvel(:, i) = J(:,:, i) * model.v * m.body_mass(i);
-    end
-    v_com = sum(xvel(1, :)) / sum(m.body_mass(:));
+    v_com = get_vcom(model, m, J);
 
     % Find distance from ankle to center of mass and adjust
     % target (only pay attention to the XY plane).
