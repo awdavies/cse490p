@@ -1,7 +1,7 @@
 % Pre-sim cleanup.  Get model, etc.
 clear
 mj('clear');
-mj('load', 'humanoid.xml');
+mj('load', 'humanoid.mjb');
 m = mj('getmodel');
 mj('reset');
 
