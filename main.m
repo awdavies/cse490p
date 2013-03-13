@@ -5,6 +5,8 @@ mj('load', 'humanoid.xml');
 m = mj('getmodel');
 mj('reset');
 
+addpath('functions');
+
 % global for stopping/starting walking
 global MODEL_WALK;
 
@@ -21,7 +23,7 @@ params.kd(12:15) = 0.5;
 % State change thresholds
 THRESHOLD.swing = 0.3;  % Time in seconds to swing.
 THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
-THRESHOLD.stable = 0.5; % Time to pause between stopping/grasping
+THRESHOLD.stable = 1; % Time to pause between stopping/grasping
 
 % Initial conditions.
 state = states.SWING_RIGHT;
@@ -43,6 +45,8 @@ for i = 1:100000
     model.x = x;
     model.n = n;
     model.com = com;
+    
+    ball_proximity(x);
     
     % Setup jacobian for com.  com is in three dimensions, hence the 3.
     % converts to one 3 x m.nq matrix per body.
