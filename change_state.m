@@ -77,7 +77,6 @@ switch(old_state)
         for i = 1:length(contact)
             if (contact(i).obj2 == 7)
                   new_state = states.STOP_RIGHT;
-                  return;
             end
         end
     case states.BEGIN_STOP_LEFT
@@ -93,11 +92,13 @@ switch(old_state)
         end
 
         [dcom_l, dcom_r] = get_dcom(model);
-        if dcom_r < threshold.dcom || -dcom_l < threshold.dcom
+        if dcom_r < threshold.dcom 
+            new_state = states.SWING_LEFT;
+            return;
+        elseif -dcom_l < threshold.dcom 
             new_state = states.SWING_RIGHT;
             return;
         end
-
         vcom = abs(get_vcom(model, m, J));
         if vcom < threshold.vcom
             new_state = states.STABLE_RIGHT;
@@ -108,12 +109,15 @@ switch(old_state)
             return;
         end
 
-        vcom = abs(get_vcom(model, m, J));
         [dcom_l, dcom_r] = get_dcom(model);
-        if dcom_l < threshold.dcom || -dcom_r < threshold.dcom
+        if dcom_l < threshold.dcom 
+            new_state = states.SWING_RIGHT;
+            return;
+        elseif -dcom_r < threshold.dcom 
             new_state = states.SWING_LEFT;
             return;
         end
+        vcom = abs(get_vcom(model, m, J));
         if vcom < threshold.vcom
             new_state = states.STABLE_LEFT;
         end
@@ -124,7 +128,10 @@ switch(old_state)
         end
         
         [dcom_l, dcom_r] = get_dcom(model);
-        if dcom_r < threshold.dcom || -dcom_l < threshold.dcom
+        if dcom_r < threshold.dcom 
+            new_state = states.SWING_LEFT;
+            return;
+        elseif -dcom_l < threshold.dcom 
             new_state = states.SWING_RIGHT;
             return;
         end
@@ -139,7 +146,10 @@ switch(old_state)
         end
 
         [dcom_l, dcom_r] = get_dcom(model);
-        if dcom_l < threshold.dcom || -dcom_r < threshold.dcom
+        if dcom_l < threshold.dcom 
+            new_state = states.SWING_RIGHT;
+            return;
+        elseif -dcom_r < threshold.dcom 
             new_state = states.SWING_LEFT;
             return;
         end

@@ -26,8 +26,8 @@ params.kd(12:15) = 0.5;
 THRESHOLD.swing = 0.2;  % Time in seconds to swing.
 THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
 THRESHOLD.stable = 1;   % Time to pause between stopping/grasping
-THRESHOLD.vcom = 0.1;   % The abs value vcom threshold for stopping.
-THRESHOLD.dcom = 0.06;   % The min dcom before taking another step (whilst stopping).
+THRESHOLD.vcom = 0.01;   % The abs value vcom threshold for stopping.
+THRESHOLD.dcom = -0.015;   % The min dcom before taking another step (whilst stopping).
 
 % Initial conditions.
 state = states.SWING_RIGHT;

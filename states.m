@@ -30,9 +30,9 @@ classdef states
            SLOW_DOWN_RIGHT_TARGET = [0.0000 
                             0.0000
                             0.0000 
-                           -0.6212 
+                           -0.6612 
                             0.4064 
-                            0.0890 
+                           -0.1890 
                             0.2618 
                            -0.0349 
                            -0.2094 
@@ -74,9 +74,9 @@ classdef states
                             0.2618 
                            -0.0349 
                            -0.2094 
-                           -0.6212 
+                           -0.6612 
                             0.4064 
-                            0.0890 
+                            -0.1890 
                             0
                             0.5
                             0
@@ -178,7 +178,7 @@ classdef states
                 target = states.STOP_RIGHT_TARGET;
             elseif (s == states.BEGIN_STOP_RIGHT)
                 target = states.SLOW_DOWN_RIGHT_TARGET;
-            elseif (s == states.STOP_LEFT || s ==states.STABLE_LEFT)
+            elseif (s == states.STOP_LEFT || s == states.STABLE_LEFT)
                 target = states.STOP_LEFT_TARGET;
             elseif (s == states.BEGIN_STOP_LEFT)
                 target = states.SLOW_DOWN_LEFT_TARGET;
