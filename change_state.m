@@ -6,14 +6,6 @@ global MODEL_WALK;
 timer = t;
 new_state = old_state;
 
-if MODEL_WALK == 0
-  % Get vcom and biggest dcom.  front/back foot don't matter.
-  front_foot = joints.RIGHT_FOOT_XZ;
-  back_foot = joints.LEFT_FOOT_XZ;
-  ff_dcom = front_foot - model.com(1);
-  bf_dcom = back_foot - model.com(1);
-  dcom = min(abs(ff_dcom), abs(bf_dcom));
-end
 
 % Switch state depending on the current state, and the change params.
 % For this model, the finite state machine modeled is supposed to look
@@ -49,6 +41,7 @@ switch(old_state)
         if t >= threshold.swing
             timer = 0;
             new_state = states.STAND_LEFT;
+
             %Transition to final state 
             if MODEL_WALK == 0
                 new_state = states.BEGIN_STOP_LEFT;
@@ -58,6 +51,7 @@ switch(old_state)
         if t >= threshold.swing
             timer = 0;
             new_state = states.STAND_RIGHT;
+
             %Transition to final state 
             if MODEL_WALK == 0
                 new_state = states.BEGIN_STOP_RIGHT;
@@ -95,38 +89,68 @@ switch(old_state)
         end
     case states.STOP_RIGHT
         if MODEL_WALK == 1
-            new_state = states.STAND_RIGHT;
+            new_state = states.SWING_RIGHT;
+            return;
         end
 
-        if dcom < threshold.dcom
-            new_state = states.SWING_LEFT;
-        end
         vcom = abs(get_vcom(model, m, J));
-        disp(vcom);
-        if vcom < threshold.vcom
+        if vcom > threshold.vcom
+            [dcom_l, dcom_r] = get_dcom(model);
+            if dcom_r < threshold.dcom || -dcom_l < threshold.dcom
+                new_state = states.SWING_RIGHT;
+            end
+        else 
             new_state = states.STABLE_RIGHT;
         end
     case states.STOP_LEFT
         if MODEL_WALK == 1
-            new_state = states.STAND_LEFT;
+            new_state = states.SWING_LEFT;
+            return;
         end
 
-        if dcom < threshold.dcom
-            new_state = states.SWING_RIGHT;
-        end
         vcom = abs(get_vcom(model, m, J));
-        if vcom < threshold.vcom
+        if vcom > threshold.vcom
+            [dcom_l, dcom_r] = get_dcom(model);
+            if dcom_l < threshold.dcom || -dcom_r < threshold.dcom
+                new_state = states.SWING_LEFT;
+            end
+        else 
             new_state = states.STABLE_LEFT;
         end
     case states.STABLE_RIGHT
         if MODEL_WALK == 1
-            new_state = states.STAND_RIGHT;
+            new_state = states.SWING_RIGHT;
+            return;
+        end
+        
+        vcom = abs(get_vcom(model, m, J));
+        if vcom > threshold.vcom
+            [dcom_l, dcom_r] = get_dcom(model);
+            if dcom_r < threshold.dcom || -dcom_l < threshold.dcom
+                new_state = states.SWING_RIGHT;
+            end
+        else 
+            new_state = states.STABLE_RIGHT;
         end
     case states.STABLE_LEFT
         if MODEL_WALK == 1
-            new_state = states.STAND_LEFT;
+            new_state = states.SWING_LEFT;
+            return;
+        end
+
+        vcom = abs(get_vcom(model, m, J));
+        if vcom > threshold.vcom
+            [dcom_l, dcom_r] = get_dcom(model);
+            if dcom_l < threshold.dcom || -dcom_r < threshold.dcom
+                new_state = states.SWING_LEFT;
+            end
+        else 
+            new_state = states.STABLE_LEFT;
         end
     otherwise
         disp('WARNING: Unrecognized stance in change state!');
     end
 end
+
+
+

@@ -13,6 +13,8 @@ global MODEL_WALK;
 % pd tuning parameters
 params.kp = ones(19, 1) * 800;   % Spring coefficient.
 params.kd = ones(19, 1) * 72;    % Damping coefficient.
+params.kp(joints.LEFT_SHIN_XZ) = 1000;
+params.kp(joints.RIGHT_SHIN_XZ) = 1000;
 params.cd = 0.8;   % D_COM angle scale factor.
 params.cv = 0.18;  % V_COM angle scale factor.
 
@@ -21,11 +23,11 @@ params.kp(12:15) = 2;
 params.kd(12:15) = 0.5;
 
 % State change thresholds
-THRESHOLD.swing = 0.3;  % Time in seconds to swing.
+THRESHOLD.swing = 0.2;  % Time in seconds to swing.
 THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
 THRESHOLD.stable = 1;   % Time to pause between stopping/grasping
 THRESHOLD.vcom = 0.1;   % The abs value vcom threshold for stopping.
-THRESHOLD.dcom = 2.3;   % The min dcom before taking another step (whilst stopping).
+THRESHOLD.dcom = 0.06;   % The min dcom before taking another step (whilst stopping).
 
 % Initial conditions.
 state = states.SWING_RIGHT;
@@ -64,8 +66,10 @@ for i = 1:100000
     % Run controller.
     f = controller(state, m, J, state.get_target(), model, params);
     
-    % Run arm controller if stable
-    if (state == states.STABLE_LEFT || state == states.STABLE_RIGHT)
+    % Run arm controller if stable, or if we've grabbed the ball and we're
+    % simply regaining our balance.
+    if (state == states.STABLE_LEFT || state == states.STABLE_RIGHT || ...
+      arm_state == 3)
         [u, arm_state] = arm_controller(arm_state);
         f(joints.GRASP_ARM_DOF_RANGE) = u(joints.GRASP_ARM_DOF_RANGE);
     end
