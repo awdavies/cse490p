@@ -10,7 +10,7 @@ global ARM_UPPER_JOINT ARM_LOWER_JOINT FINGER1_1_JOINT FINGER1_2_JOINT ...
 Qzero = mj('get','qpos');
 Qstar = Qzero;
 
-Qstar(ARM_UPPER_JOINT+1:FINGER2_2_JOINT+1) = [-pi; pi/2; 0; 0; 0; 0];
+Qstar(ARM_UPPER_JOINT+1:ARM_LOWER_JOINT+1) = [-pi; pi/2];
 
 % k1 = 50;
 % k2 = 5;
