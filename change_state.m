@@ -33,6 +33,8 @@ new_state = old_state;
 %
 %
 switch(old_state)
+
+%%%% WALKING STATES.
     % TODO: Remove hard coded foot numbers.
     case states.SWING_LEFT
         if t >= threshold.swing
@@ -66,6 +68,8 @@ switch(old_state)
                   timer = 0;
             end
         end
+
+%%%% STOPPING STATES.
     case states.BEGIN_STOP_RIGHT
         for i = 1:length(contact)
             if (contact(i).obj2 == 7)
