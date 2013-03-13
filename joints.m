@@ -21,6 +21,6 @@ classdef joints
 		LEFT_THIGH_XZ = 7;
 		LEFT_SHIN_XZ = 8;
 		LEFT_FOOT_XZ = 9;
-        GRASP_ARM_DOF_RANGE = 10:15;
+    GRASP_ARM_DOF_RANGE = 10:15;
 	end
 end

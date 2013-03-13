@@ -13,6 +13,7 @@ global MODEL_WALK;
 % pd tuning parameters
 params.kp = ones(19, 1) * 800;   % Spring coefficient.
 params.kd = ones(19, 1) * 72;    % Damping coefficient.
+params.kp(joints.GRASP_ARM_DOF_RANGE) = 400;
 params.kp(joints.LEFT_SHIN_XZ) = 1000;
 params.kp(joints.RIGHT_SHIN_XZ) = 1000;
 params.cd = 0.8;   % D_COM angle scale factor.
@@ -26,8 +27,7 @@ params.kd(12:15) = 0.5;
 THRESHOLD.swing = 0.2;  % Time in seconds to swing.
 THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
 THRESHOLD.stable = 1;   % Time to pause between stopping/grasping
-THRESHOLD.vcom = 0.01;   % The abs value vcom threshold for stopping.
-THRESHOLD.dcom = -0.015;   % The min dcom before taking another step (whilst stopping).
+THRESHOLD.vcom = 0.01;  % The abs value vcom threshold for stopping.
 
 % Initial conditions.
 state = states.SWING_RIGHT;
@@ -74,7 +74,7 @@ for i = 1:100000
         [u, arm_state] = arm_controller(arm_state);
         f(joints.GRASP_ARM_DOF_RANGE) = u(joints.GRASP_ARM_DOF_RANGE);
     end
-    
+
     mj('set', 'qfrc_external', f);
     mj('step2');
     if mod(i, 20) == 0

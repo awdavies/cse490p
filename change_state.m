@@ -84,13 +84,14 @@ switch(old_state)
         end
 
         [dcom_l, dcom_r] = get_dcom(model);
-        if dcom_r < threshold.dcom 
+        if not(floor_contact(10, contact)) && dcom_r < 0
             new_state = states.SWING_LEFT;
             return;
-        elseif -dcom_l < threshold.dcom 
+        elseif not(floor_contact(7, contact)) && dcom_l > 0
             new_state = states.SWING_RIGHT;
             return;
         end
+
         vcom = abs(get_vcom(model, m, J));
         if vcom < threshold.vcom
             new_state = states.STABLE_RIGHT;
@@ -102,13 +103,14 @@ switch(old_state)
         end
 
         [dcom_l, dcom_r] = get_dcom(model);
-        if dcom_l < threshold.dcom 
-            new_state = states.SWING_RIGHT;
-            return;
-        elseif -dcom_r < threshold.dcom 
+        if not(floor_contact(10, contact)) && dcom_r > 0
             new_state = states.SWING_LEFT;
             return;
+        elseif not(floor_contact(7, contact)) && dcom_l < 0
+            new_state = states.SWING_RIGHT;
+            return;
         end
+
         vcom = abs(get_vcom(model, m, J));
         if vcom < threshold.vcom
             new_state = states.STABLE_LEFT;
@@ -118,15 +120,16 @@ switch(old_state)
             new_state = states.SWING_RIGHT;
             return;
         end
-        
+
         [dcom_l, dcom_r] = get_dcom(model);
-        if dcom_r < threshold.dcom 
+        if not(floor_contact(10, contact)) && dcom_r < 0
             new_state = states.SWING_LEFT;
             return;
-        elseif -dcom_l < threshold.dcom 
+        elseif not(floor_contact(7, contact)) && dcom_l > 0
             new_state = states.SWING_RIGHT;
             return;
         end
+        
         vcom = abs(get_vcom(model, m, J));
         if vcom < threshold.vcom
             new_state = states.STABLE_RIGHT;
@@ -138,10 +141,10 @@ switch(old_state)
         end
 
         [dcom_l, dcom_r] = get_dcom(model);
-        if dcom_l < threshold.dcom 
+        if not(floor_contact(10, contact)) && dcom_r > 0
             new_state = states.SWING_RIGHT;
             return;
-        elseif -dcom_r < threshold.dcom 
+        elseif not(floor_contact(7, contact)) && dcom_l < 0
             new_state = states.SWING_LEFT;
             return;
         end
