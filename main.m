@@ -24,7 +24,8 @@ params.kd(12:15) = 0.5;
 THRESHOLD.swing = 0.3;  % Time in seconds to swing.
 THRESHOLD.force = 0;    % Force in newtons (I think). Zero means on contact.
 THRESHOLD.stable = 1;   % Time to pause between stopping/grasping
-THRESHOLD.vcom = 0.2;   % The abs value vcom threshold for stopping.
+THRESHOLD.vcom = 0.1;   % The abs value vcom threshold for stopping.
+THRESHOLD.dcom = 2.3;   % The min dcom before taking another step (whilst stopping).
 
 % Initial conditions.
 state = states.SWING_RIGHT;
@@ -57,7 +58,7 @@ for i = 1:100000
     end
         
     % Check/change state.
-    [state, timer] = change_state(state, timer, THRESHOLD, n);
+    [state, timer] = change_state(state, timer, model, m, J, THRESHOLD, n);
     timer = timer + dt;
 
     % Run controller.
