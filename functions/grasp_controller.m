@@ -7,11 +7,8 @@ function u = grasp_controller(q, v, x, m, k1, k2)
            FINGER2_1_JOINT FINGER2_2_JOINT BALL_X_JOINT BALL_Z_JOINT
     global ARM_UPPER_GEOM ARM_LOWER_GEOM FINGER1_1_GEOM FINGER1_2_GEOM ...
        FINGER2_1_GEOM FINGER2_2_GEOM BALL_GEOM
-
-%     k1 = 10000;
-%     k2 = .1;
    
-    BALL_SIZE = m.geom_size(BALL_GEOM + 1, 1); % TODO use mj constant
+    BALL_SIZE = m.geom_size(BALL_GEOM + 1, 1);
     FINGER_SIZE = m.geom_size(FINGER1_1_GEOM + 1, 1);
     
     sites_xpos = mj('get', 'site_xpos');
@@ -32,14 +29,6 @@ function u = grasp_controller(q, v, x, m, k1, k2)
     ystar_finger2 = (end_of_ball + [offset_vec2(1) 0 offset_vec2(2)])';
 
     ystar_wrist = (x(BALL_BODY + 1, :)' - (alignment_vec * (BALL_SIZE) / norm(alignment_vec)));
-    
-    %{
-    ystar_finger1 = (x(BALL_BODY + 1, :) + [0 0 -BALL_SIZE])';
-    ystar_finger2 = (x(BALL_BODY + 1, :) + [0 0 -BALL_SIZE])';
-    ystar_hand =    (x(BALL_BODY + 1, :) + [0 0  BALL_SIZE])';
-    %}
-    
-    
 
     % Get the controllers for both of the finger tips
     u_finger1 = push_controller(FINGER1_SITE, ystar_finger1, k1, k2);

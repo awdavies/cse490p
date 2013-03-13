@@ -6,14 +6,6 @@ function [u, ystar] = align_controller(q, v, x, k1, k2, k, b)
     global ARM_UPPER_JOINT ARM_LOWER_JOINT FINGER1_1_JOINT FINGER1_2_JOINT ...
            FINGER2_1_JOINT FINGER2_2_JOINT BALL_X_JOINT BALL_Z_JOINT
 
-%     % Push controller spring parameters
-%     k1 = 50;
-%     k2 = 10;
-% 
-%     % PD controller spring parameters
-%     k = 10;
-%     b = .5;
-
     % Make sure that the wrist stays aligned with the ball (i.e. the
     % two fingers stay equidistant from the vector between the wrist
     % and the ball).

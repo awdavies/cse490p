@@ -3,7 +3,7 @@ Function to control the arm in the humanoid(Grasp).xml model.
 arm_controller is initially called with the state 0, and is succesively
 called with the state that was returned by the previous call. Each call
 will return a controller u, that controls only joints that are part of the
-arm. Note that if the ball is out of reach, u will be all zeros.
+arm.
 %}
 
 function [u, state] = arm_controller(state)
@@ -70,11 +70,7 @@ function [u, state] = arm_controller(state)
     % DEBUG 
     % move ball closer to test approach/grasp on humanoid
     %q(BALL_X_JOINT+1) = degtorad(-25);
-   % mj('set', 'qpos', q);
-
-    % Begin Simulation
-    PLOT_FREQ = 100;
-
+    % mj('set', 'qpos', q);
 
     switch state
         case APPROACH
@@ -88,9 +84,6 @@ function [u, state] = arm_controller(state)
             b = .5;
 
             [u, ystar_approach] = align_controller(q, v, x, k1, k2, k, b);
-            %y(i+1) = ystar_approach(3);
-
-            % success if hand CoM is above the ball and has small velocity: ALIGN
 
         case GRASP
 
@@ -99,28 +92,18 @@ function [u, state] = arm_controller(state)
 
             u = grasp_controller(q, v, x, m, k1, k2);
 
-            % success if force closure on ball / stability of ball: LIFT
-
         case LIFT
 
             k1 = 10;
             k2 = 5;
             u = lift_controller(k1, k2);
             u(FINGER1_1_JOINT+1 : FINGER2_2_JOINT+1) = 0;
-%             k1 = 100;
-%             k2 = 100;
-%             u = approach_controller(q, v, x, ystar, k1, k2);
+
             k1 = 50;
             k2 = .3;
             u_grasp = grasp_controller(q, v, x, m, k1, k2);
             u_grasp(1:FINGER1_1_JOINT) = 0;
             u = u + u_grasp;
-
-            % success if ball is stable, hand and ball CoM are at target
-            % location, and hand is contacting the ball
-
-        case ERROR
-            % stop the simulation
     end
 
 
@@ -136,51 +119,12 @@ function [u, state] = arm_controller(state)
     % into space.
     g(BALL_X_JOINT+1:BALL_Z_JOINT+1) = 0;
     u = u - g;
-    %mj('set', 'qfrc_external', u-g);
-
-    % Step for every dt, plot every PLOT_FREQ steps.
-    %{
-    mj('step', 1);
-    if (~mod(i, PLOT_FREQ))
-        mjplot;
-        drawnow;
-    end
-    i = i + 1;
-
-    % Update state variables
-    mj('kinematics');
-    mj('forward');
-    %}
-    [q,v,x,site_x,contact] = mj('get','qpos','qvel','xpos','site_xpos', 'contact');
-
-
-    % Check for failure cases:
-    %{
-    % DEBUG use only if arm is immobile
-    % failure if ball out of reach and contacting the ground: go to ERROR
     
-    
-    on_ground = false;
-    for c = contact
-        if ((c.obj1 == 0 || c.obj1 == BALL_BODY) && ...
-            (c.obj2 == 0 || c.obj2 == BALL_BODY))
-            on_ground = true;
-            break;
-        end
-    end
-    %}
-%     arm_to_ball_dist = norm(site_x(ARM_START_SITE+1, :) - x(BALL_BODY+1, :));
-%     if (arm_to_ball_dist > TOTAL_LENGTH) %&& on_ground)
-%         state = APPROACH;
-%         u = zeros(length(q), 1);
-%         disp('Arm zeroed');
-%     end
-
+    % Check for failure case:
     % If hand is not within two diameters of the ball CM: go to APPROACH
     hand_to_ball_dist = norm(site_x(ARM_END_SITE+1, :) - x(BALL_BODY+1, :));
     if (state ~= APPROACH && hand_to_ball_dist > BALL_RADIUS*4)
         state = APPROACH;
-        %dz = FINGER_LENGTH*1.5;
         disp('Backtrack to approach');
     end
 
@@ -188,8 +132,6 @@ function [u, state] = arm_controller(state)
     switch state
         case APPROACH
 
-            % Stability check based on distance and velocity
-            %error = norm(site_x(ARM_END_SITE+1, :)' - ystar) + norm(v);
             finger_center = (site_x(FINGER1_SITE+1, :) + site_x(FINGER2_SITE+1, :)) / 2;
             hand_to_finger_dist = norm(site_x(ARM_END_SITE+1, :) - finger_center);
             if ((hand_to_finger_dist - hand_to_ball_dist) > BALL_RADIUS / 2)
@@ -238,8 +180,6 @@ function [u, state] = arm_controller(state)
                state = LIFT; 
                fprintf('Switched to lifting!\n');
             end
-
-            %ball_vec;
 
         case LIFT
 

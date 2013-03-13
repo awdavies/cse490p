@@ -17,9 +17,6 @@ for i = 1:100000
     [u, state] = arm_controller(state);
     mj('set', 'qfrc_external', u);
     
-    
-    
-    
     mj step2;
     
     if (~mod(i, 20))
