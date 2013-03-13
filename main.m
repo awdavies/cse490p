@@ -40,6 +40,7 @@ MODEL_WALK = 1;
 %    Main Loop
 %----------------------- 
 for i = 1:100000
+%for i = 1:14521
     mj('step1');
     [q,v,x,n,com,dt] = mj('get','qpos','qvel','geom_xpos','contact','com','dt');
     
