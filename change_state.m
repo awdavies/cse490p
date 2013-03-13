@@ -88,17 +88,9 @@ switch(old_state)
         if MODEL_WALK == 1
             new_state = states.STAND_RIGHT;
         end
-        if (timer > threshold.stable)
-            new_state = states.STABLE_RIGHT;
-            timer = 0;
-        end
     case states.STOP_LEFT
         if MODEL_WALK == 1
             new_state = states.STAND_LEFT;
-        end
-        if (timer > threshold.stable)
-            new_state = states.STABLE_LEFT;
-            timer = 0;
         end
     case states.STABLE_RIGHT
         if MODEL_WALK == 1
