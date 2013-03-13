@@ -1,109 +1,118 @@
 <mujoco version="1.0">
-    <compiler uniquevertex="false" />
-    <default>
-        <joint makeactuator="false" />
-        <geom contype="0" colmask="1 1" friction="1 0.3 0.3" rgba="0.8 0.7 0 1" />
-        <tendon makeactuator="false" />
-        <actuator dyntype="none" trntype="joint" gaintype="fixed" dynprm="0 0" trnprm="1 0 0 0 0" gainprm="1 0" />
-    </default>
-    <engine modelname="MuJoCo model" timestep="0.001" gravity="0 0 -9.81" viscosity="0" wind="0 0 0" eqerrreduce="0.05" imperrreduce="0.001" posthoccoef="100" softclamp="0" reginv="0.01" regimpulse="0.0001" mindistscl="1" integrator="RK4" collisionmode="broadphase" sweeps="1" posthoc="false">
-        <impulse type="0" algorithm="GS" atype="diagonal" maxiter="5" />
-        <impulse type="1" algorithm="GS" atype="diagonal" maxiter="5" />
-        <impulse type="2" algorithm="GS" atype="diagonal" maxiter="5" />
-        <impulse type="3" algorithm="GS" atype="diagonal" maxiter="5" />
-        <impulse type="4" algorithm="GS" atype="diagonal" maxiter="5" />
-    </engine>
-    <world coordinate="local" angle="radian">
-        <geom type="plane" contype="1" mindist="0.01" pos="0 0 0" />
-        <body name="torso" pos="0 0 1.73404255" viscscale="1">
-            <inertial pos="0 0 0" mass="73.82742736" inertia="13.46674884 12.89079019 1.00164446" />
-            <joint type="slide" limtype="1" pos="0 0 -0.53404255" axis="1 0 0" limit="-0.08726646 0.17453293" mindist="0.01" />
-            <joint type="slide" limtype="1" pos="0 0 -0.53404255" axis="0 0 1" limit="-0.08726646 0.17453293" mindist="0.01" />
-            <joint type="hinge" limtype="1" pos="0 0 -0.53404255" axis="0 1 0" limit="-0.08726646 0.08726646" mindist="0.01" />
-            <geom type="capsule" pos="0 0 -0.13404255" size="0.1 0.4" />
-            <geom type="capsule" pos="0 0 -0.53404255" quat="0.70710678 0.70710678 0 0" size="0.1 0.2" />
-            <geom type="capsule" pos="0 0 0.26595745" quat="0.70710678 0.70710678 0 0" size="0.1 0.2" />
-            <geom type="sphere" pos="0 0 0.56595745" size="0.15" />
-            <body name="leftupper" pos="0 -0.2 -0.83404255" viscscale="1">
-                <inertial pos="0 0 0" mass="21.99114858" inertia="0.95294977 0.95294977 0.10995574" />
-                <joint type="hinge" limtype="1" pos="0 0 0.3" axis="0 1 0" limit="-1.57079633 1.04719755" mindist="0.01" />
-                <geom type="capsule" pos="0 0 0" size="0.1 0.3" />
-                <body name="leftlower" pos="0 0 -0.55" viscscale="1">
-                    <inertial pos="0 0 0" mass="11.66159193" inertia="0.34557184 0.34557184 0.03731709" />
-                    <joint type="hinge" limtype="1" pos="0 0 0.25" axis="0 1 0" limit="-0.03490659 2.44346095" mindist="0.01" />
-                    <geom type="capsule" pos="0 0 0" size="0.08 0.25" />
-                    <body name="leftfoot" pos="0.05 0 -0.3" quat="0.70710678 0 0.70710678 0" viscscale="1">
-                        <inertial pos="0 0 0" mass="2.74889357" inertia="0.02977968 0.02977968 0.00343612" />
-                        <joint type="hinge" limtype="1" pos="-0.05 0 -0.05" axis="0 1 0" limit="-0.52359878 1.04719755" mindist="0.01" />
-                        <geom type="capsule" contype="1" mindist="0.01" pos="0 0 0" size="0.05 0.15" />
-                    </body>
-                </body>
-            </body>
-            <body name="rightupper" pos="0 0.2 -0.83404255" viscscale="1">
-                <inertial pos="0 0 0" mass="21.99114858" inertia="0.95294977 0.95294977 0.10995574" />
-                <joint type="hinge" limtype="1" pos="0 0 0.3" axis="0 1 0" limit="-1.57079633 1.04719755" mindist="0.01" />
-                <geom type="capsule" pos="0 0 0" size="0.1 0.3" />
-                <body name="rightlower" pos="0 0 -0.55" viscscale="1">
-                    <inertial pos="0 0 0" mass="11.66159193" inertia="0.34557184 0.34557184 0.03731709" />
-                    <joint type="hinge" limtype="1" pos="0 0 0.25" axis="0 1 0" limit="-0.03490659 2.44346095" mindist="0.01" />
-                    <geom type="capsule" pos="0 0 0" size="0.08 0.25" />
-                    <body name="rightfoot" pos="0.05 0 -0.3" quat="0.70710678 0 0.70710678 0" viscscale="1">
-                        <inertial pos="0 0 0" mass="2.74889357" inertia="0.02977968 0.02977968 0.00343612" />
-                        <joint type="hinge" limtype="1" pos="-0.05 0 -0.05" axis="0 1 0" limit="-0.52359878 1.04719755" mindist="0.01" />
-                        <geom type="capsule" contype="1" mindist="0.01" pos="0 0 0" size="0.05 0.15" />
-                    </body>
-                </body>
-            </body>
-            <body name="upper" pos="0 0.25 0.01595745" viscscale="1">
-                <inertial pos="0 0 0" mass="11.66159193" inertia="0.34557184 0.34557184 0.03731709" />
-                <joint name="upper" type="hinge" pos="0 0 0.25" axis="0 1 0" />
-                <geom name="upper" type="capsule" pos="0 0 0" size="0.08 0.25" />
-                <site name="start_upper" pos="0 0 0.25" />
-                <body name="lower" pos="0.25 0 -0.25" quat="0.70710678 0 -0.70710678 0" viscscale="1">
-                    <inertial pos="0 0 0" mass="7.49937436" inertia="0.20742020 0.20742020 0.01584243" />
-                    <joint name="lower" type="hinge" pos="0 0 0.25" axis="0 1 0" />
-                    <geom name="lower" type="capsule" pos="0 0 0" size="0.065 0.25" />
-                    <site name="end_lower" quat="0.70710678 0 0.70710678 0" pos="0 0 -0.25" />
-                    <body name="finger1_1" pos="0.075 0 -0.325" quat="0.92387953 0 -0.38268343 0" viscscale="1">
-                        <inertial pos="0 0 0" mass="0.29170572" inertia="0.00133906 0.00133906 0.00005834" />
-                        <joint name="finger1_1" type="hinge" limtype="1" pos="0 0 0.10606602" axis="0 1 0" limit="-2.35619449 2.35619449" mindist="0.01" />
-                        <geom name="finger1_1" type="capsule" contype="1" mindist="0.01" pos="0 0 0" size="0.02 0.10606602" rgba="1 0.6 0.3 1" />
-                        <body name="finger1_2" pos="-0.05303301 0 -0.15909903" quat="0.92387953 0 0.38268343 0" viscscale="1">
-                            <inertial pos="0 0 0" mass="0.11663163" inertia="0.00027117 0.00027117 0.00001312" />
-                            <joint name="finger1_2" type="hinge" limtype="1" pos="0 0 0.075" axis="0 1 0" limit="-0.78539816 2.35619449" mindist="0.01" />
-                            <geom name="finger1_2" type="capsule" contype="1" mindist="0.01" pos="0 0 0" size="0.015 0.075" rgba="1 0.4 0.1 1" />
-                            <site name="end_finger1" quat="0.70710678 0 0.70710678 0" pos="0 0 -0.075" />
-                        </body>
-                    </body>
-                    <body name="finger2_1" pos="-0.075 0 -0.325" quat="0.92387953 0 0.38268343 0" viscscale="1">
-                        <inertial pos="0 0 0" mass="0.29170572" inertia="0.00133906 0.00133906 0.00005834" />
-                        <joint name="finger2_1" type="hinge" limtype="1" pos="0 0 0.10606602" axis="0 1 0" limit="-2.35619449 2.35619449" mindist="0.01" />
-                        <geom name="finger2_1" type="capsule" contype="1" mindist="0.01" pos="0 0 0" size="0.02 0.10606602" />
-                        <body name="finger2_2" pos="0.05303301 0 -0.15909903" quat="0.92387953 0 -0.38268343 0" viscscale="1">
-                            <inertial pos="0 0 0" mass="0.11663163" inertia="0.00027117 0.00027117 0.00001312" />
-                            <joint name="finger2_2" type="hinge" limtype="1" pos="0 0 0.075" axis="0 1 0" limit="-2.35619449 0.78539816" mindist="0.01" />
-                            <geom name="finger2_2" type="capsule" contype="1" mindist="0.01" pos="0 0 0" size="0.015 0.075" />
-                            <site name="end_finger2" quat="0.70710678 0 0.70710678 0" pos="0 0 -0.075" />
-                        </body>
-                    </body>
-                </body>
-            </body>
-            <body name="Rt_Arm" pos="0 -0.25 0.01595745" viscscale="1">
-                <inertial pos="0 0 0" mass="11.66159193" inertia="0.34557184 0.34557184 0.03731709" />
-                <joint type="hinge" limtype="1" pos="0 0.5 0.25" axis="0 1 0" limit="-0.78539816 1.57079633" mindist="0.01" />
-                <geom type="capsule" pos="0 0 0" size="0.08 0.25" />
-                <body name="Rt_Forearm" pos="0.25 0 -0.25" quat="0.70710678 0 -0.70710678 0" viscscale="1">
-                    <inertial pos="0 0 0" mass="7.49937436" inertia="0.20742020 0.20742020 0.01584243" />
-                    <joint type="hinge" limtype="1" pos="0 0 0.25" axis="0 1 0" limit="-0.78539816 1.39626340" mindist="0.01" />
-                    <geom type="capsule" pos="0 0 0" size="0.065 0.25" />
-                </body>
-            </body>
-        </body>
-        <body name="ball" pos="1.5 0.25 1.5" viscscale="1">
-            <inertial pos="0 0 0" mass="0.1" inertia="0.0004 0.0004 0.0004" />
-            <joint name="ball_x" type="slide" limtype="1" pos="0 0 -1.4" axis="1 0 0" limit="-1.74532925 1.74532925" mindist="0.01" />
-            <joint name="ball_z" type="slide" limtype="1" pos="0 0 -1.4" axis="0 0 1" limit="0 3.49065850" mindist="0.01" />
-            <geom name="ball" type="sphere" contype="1" mindist="0.01" pos="0 0 0" size="0.1" />
-        </body>
-    </world>
+	<compiler inertiafromgeom="true"/>
+	<engine gravity="0 0 -9.81" integrator="RK4" timestep="0.001" regimpulse="0.0001" imperrreduce="0.001">
+		<impulse algorithm="GS" atype="diagonal" maxiter="5"/>
+	</engine>
+	<default>
+		<geom contype="0" condim="3" mindist="0.01" rgba=".8 .7 0 1" friction="1 .3 .3"/>
+	</default>
+
+	<world angle="degree">
+		<geom type="plane" contype="1" pos="0 0 0"/>	
+
+		<!-- Main torso section -->
+		<body name="torso">
+			<geom type="capsule" fromto="0 0 2 0 0 1.2" size="0.10"/>
+			<geom type="capsule" fromto="0 -0.2 1.2 0 0.2 1.2" size="0.10"/>
+			<geom type="capsule" fromto="0 -0.2 2 0 0.2 2" size="0.10"/>
+			<geom type="sphere"  pos = "0 0 2.3" size="0.15"/>
+			<!-- Torso DOF (uncomment last 3 for full freedom.)
+			     Default is 3 DOF (for forward/backward).
+			     -->
+			<joint type="slide" pos="0 0 1.2" axis="1 0 0" limtype="1" limit="-5 10"/>
+			<joint type="slide" pos="0 0 1.2" axis="0 0 1" limtype="1" limit="-5 10"/>
+			<joint type="hinge" pos="0 0 1.2" axis="0 1 0" limtype="1" limit="-5 5"/>
+
+			<!-- Extra DOFs
+			<joint type="slide" pos="0 0 1.2" axis="0 1 0"/>
+			<joint type="hinge" pos="0 0 1.2" axis="0 0 1"/>
+			<joint type="hinge" pos="0 0 1.2" axis="1 0 0"/>
+			-->
+			
+			<!-- Left Leg -->
+			<body name="leftupper">
+				<geom type="capsule" fromto="0 -0.2 1.2  0 -0.2 0.6" size="0.1"/>
+				<joint type="hinge" limtype="1" limit="-90 60" pos="0 -0.2 1.2" axis="0 1 0"/>
+				<body name="leftlower">
+					<geom type="capsule" fromto="0 -0.2 0.6  0 -0.2 0.1  " size="0.08"/>
+					<joint type="hinge" limtype="1" limit="-2 140" pos="0 -0.2 0.6" axis="0 1 0"/>
+					<body name="leftfoot">
+						<geom type="capsule" contype="1" fromto="0.2 -0.2 0.05  -0.1 -0.2 0.05  " size="0.05"/>
+						<joint type="hinge" limtype="1" limit="-30 60" pos="0 -0.2 0.1" axis="0 1 0"/>
+					</body>				
+				</body>				
+			</body>
+			
+			<!-- Right Leg -->
+			<body name="rightupper">
+				<geom type="capsule" fromto="0 0.2 1.2  0 0.2 0.6" size="0.1"/>
+				<joint type="hinge" limtype="1" limit="-90 60" pos="0 0.2 1.2" axis="0 1 0"/>
+				<body name="rightlower">
+					<geom type="capsule" fromto="0 0.2 0.6  0 0.2 0.1  " size="0.08"/>
+					<joint type="hinge" pos="0 0.2 0.6" limtype="1" limit="-2 140" axis="0 1 0"/>
+					<body name="rightfoot">
+						<geom type="capsule" fromto="0.2 0.2 0.05  -0.1 0.2 0.05  " size="0.05" contype="1"/>
+						<joint type="hinge" pos="0 0.2 0.1" limtype="1" limit="-30 60" axis="0 1 0"/>
+					</body>				
+				</body>				
+			</body>
+			
+			<!-- Left Hand -->
+			<body name="upper">
+				<geom name="upper" type="capsule" fromto="0 0.25 2.0 0 0.25 1.5" size=".08" />
+				<joint name="upper" type="hinge" pos="0 0.25 2.0" axis="0 1 0" />
+				<site name="start_upper" pos="0 0.25 2.0" />
+
+				<body name="lower">
+				  <geom name="lower" type="capsule" fromto="0 0.25 1.5 0.5 0.25 1.5" size=".065" />
+				  <joint name="lower" type="hinge" pos="0 0.25 1.5" axis="0 1 0" />
+				  <site name="end_lower" pos="0.5 0.25 1.5" />
+				  
+					<body name="finger1_1">
+						<geom name="finger1_1" type="capsule" fromto="0.5 0.25 1.5   0.65 0.25 1.65" size=".02" rgba = "1 0.6 0.3 1" contype="1" />
+						<joint name="finger1_1" limtype="1" limit="-135 135" type="hinge" pos="0.5 0.25 1.5" axis="0 1 0" />
+
+						<body name="finger1_2">
+						  <geom name="finger1_2" type="capsule" fromto="0.65 0.25 1.65    0.8 0.25 1.65" size=".015" rgba = "1 0.4 0.1 1" contype="1" />
+						  <joint  name="finger1_2" limtype="1" limit="-45 135" type="hinge" pos="0.65 0.25 1.65" axis="0 1 0" />
+						  <site name="end_finger1" pos="0.8 0.25 1.65" />
+						</body>
+						
+					</body>
+
+					<body name="finger2_1">
+						<geom name="finger2_1" type="capsule" fromto = "0.5 0.25 1.5   0.65 0.25 1.35" size=".02" contype="1" />
+						<joint name="finger2_1" limtype="1" limit="-135 135" type="hinge" pos="0.5 0.25 1.5" axis="0 1 0" />
+
+						<body name="finger2_2">
+						  <geom name="finger2_2" type="capsule" fromto="0.65 0.25 1.35 0.8 0.25 1.35" size=".015" contype="1" />
+						  <joint name="finger2_2" limtype="1" limit="-135 45" type="hinge" pos="0.65 0.25 1.35" axis="0 1 0" />
+						  <site name="end_finger2" pos="0.8 0.25 1.35" />
+						</body>
+					
+					</body>
+				</body>
+			</body>
+			
+			<!-- Right Hand -->
+			<body name="Rt_Arm">
+				<geom type="capsule" fromto="0 -0.25 2.0 0 -0.25 1.5" size=".08" />
+				<joint type="hinge" pos="0 0.25 2.0" axis="0 1 0" limtype="1" limit="-45 90"/>
+
+				<body name="Rt_Forearm">
+				  <geom type="capsule" fromto="0 -0.25 1.5 0.5 -0.25 1.5" size=".065" />
+				  <joint type="hinge" pos="0 -0.25 1.5" axis="0 1 0" limtype="1" limit="-45 80" />
+				</body>
+			</body>
+		</body>
+		
+		<body name="ball">
+			<geom name="ball" type="sphere" pos="1.5 0.25 1.5" size=".1" contype="1" mass=".1" />
+			<!-- use y-axis for 3 dimensional arm -->
+			<!--<joint type="slide" pos="1.5 0 .1" axis="0 1 0" />-->
+			<joint name="ball_x" type="slide" pos="1.5 0.25 .1" axis="1 0 0" limtype="1" limit="-100 100"/>
+			<joint name="ball_z" type="slide" pos="1.5 0.25 .1" axis="0 0 1" limtype="1" limit="0 200"/>
+      </body>
+	</world>
+
 </mujoco>
