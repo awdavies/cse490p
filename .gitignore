@@ -6,3 +6,4 @@
 *.asv
 # Ignore log files
 *.txt
+*~
