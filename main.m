@@ -1,11 +1,13 @@
 % Pre-sim cleanup.  Get model, etc.
 clear
+addpath('arm_functions');
+addpath('walk_functions');
+addpath('models');
+
 mj('clear');
-mj('load', 'humanoid.mjb');
+mj('load', 'models/humanoid.mjb');
 m = mj('getmodel');
 mj('reset');
-
-addpath('functions');
 
 % global for stopping/starting walking
 global MODEL_WALK;
@@ -63,7 +65,7 @@ for i = 1:100000
     % Check/change state.
     [state, timer] = change_state(state, timer, model, m, J, THRESHOLD, n);
     timer = timer + dt;
-
+ 
     % Run controller.
     f = controller(state, m, J, state.get_target(), model, params);
     
